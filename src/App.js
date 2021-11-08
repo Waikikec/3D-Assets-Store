@@ -1,9 +1,9 @@
-import TopBar from "./navbar/NavBar";
+import NavBar from "./navbar/NavBar";
 
 function App() {
   return (
     <>
-      <TopBar />
+      <NavBar />
     </>
   );
 }
