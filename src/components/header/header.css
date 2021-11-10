@@ -1,0 +1,30 @@
+.header {
+    margin-top: 30px;
+}
+
+.headerTitles {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Red Hat Mono', monospace;
+    color: rgb(210, 226, 67);
+}
+
+.headTitleSm {
+    position: absolute;
+    font-size: 30px;
+    top: 7%;
+}
+
+.headTitleLg {
+    position: absolute;
+    font-size: 100px;
+    top: 10%;
+}
+
+.headerImg {
+    width: 100%;
+    height: 450px;
+    margin-top: 35px;
+    object-fit: cover;
+}

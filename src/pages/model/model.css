@@ -1,0 +1,60 @@
+.model {
+    padding-top: 50px;
+}
+
+.modelImg {
+    margin-left: 150px;
+    width: 70vw;
+    height: 250px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.modelForm {
+    position: relative;
+}
+
+.modelFormGroup {
+    margin-left: 150px;
+    display: flex;
+    align-items: center;
+    width: 70vw;
+}
+
+.modelIcon {
+    font-size: 30px;
+    color: gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.modelInput {
+    font-size: 30px;
+    border: none;
+    padding: 20px;
+    width: 70vw;
+}
+
+.modelInput:focus {
+    outline: none;
+}
+
+.modelText {
+    font-size: 20px;
+    height: 100vw;
+}
+
+.submitBtn {
+    position: absolute;
+    top: 500px;
+    right: 50px;
+    color: white;
+    background-color: teal;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
