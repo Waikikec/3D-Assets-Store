@@ -64,7 +64,7 @@ router.get('/:id', async (req, res) => {
 
 router.get('/', async (req, res) => {
     const category = req.query.category;
-    const user = await User.find({ username: req.query.user });
+    const user = await User.find({ username: req.query.user });    
     try {
         let models;
         if (user) {

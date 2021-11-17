@@ -1,16 +1,12 @@
 import Post from '../post/Post';
 import './posts.css';
 
-export default function Posts() {
+export default function Posts({ models }) {
     return (
         <div className="posts">
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
+            {models.map((p) => (
+                <Post post={p} />
+            ))}
         </div>
     )
 }

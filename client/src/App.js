@@ -6,10 +6,11 @@ import Profile from "./pages/profile/Profile";
 import Model from "./pages/model/Model";
 import Details from "./pages/details/Details";
 
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
-  const user = false;
+  const user = "marto";
   return (
     <Router>
       <NavBar />
