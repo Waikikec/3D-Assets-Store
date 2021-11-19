@@ -4,10 +4,7 @@ const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const Model = require('../models/Model');
 
-router.put('/:id', async (req, res) => {
-    console.log(req.body);
-    console.log(req.params.id);
-    
+router.put('/:id', async (req, res) => {  
     if (req.body.userId === req.params.id) {
         if (req.body.password) {
             const salt = await bcrypt.genSalt(10);
