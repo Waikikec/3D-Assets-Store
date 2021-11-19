@@ -64,10 +64,11 @@ router.get('/:id', async (req, res) => {
 
 router.get('/', async (req, res) => {
     const category = req.query.category;
-    const user = await User.find({ username: req.query.user });    
+    const user = await User.find({ username: req.query.user });  
+
     try {
         let models;
-        if (user) {
+        if (!user) {
             models = await Model.find({ author: user[0] });
         } else if (category) {
             models = await Model.find({
@@ -75,7 +76,6 @@ router.get('/', async (req, res) => {
             });
         } else {
             models = await Model.find({});
-            console.log(models);
         }
         res.status(200).json(models);
     } catch (error) {

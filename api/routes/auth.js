@@ -13,6 +13,7 @@ router.post('/register', async (req, res) => {
             email: req.body.email,
             password: hashedPass,
         });
+        console.log(user);
         await user.save();
         res.status(200).json(user);
     } catch (err) {

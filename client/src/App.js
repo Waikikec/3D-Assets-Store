@@ -6,11 +6,12 @@ import Profile from "./pages/profile/Profile";
 import Model from "./pages/model/Model";
 import Details from "./pages/details/Details";
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Context } from "./context/Context";
 
 function App() {
-  const user = "marto";
+  const { user } = useContext(Context);
   return (
     <Router>
       <NavBar />
@@ -19,10 +20,11 @@ function App() {
         {/* PAGES FOR GUEST */}
         <Route path="/register" element={user ? <Home /> : <Register />} />
         <Route path="/login" element={user ? <Home /> : <Login />} />
-        <Route path="/model" element={user ? <Model /> : <Register />} />
         {/* PAGES FOR USER */}
+        <Route path="/model" element={user ? <Model /> : <Register />} />
         <Route path="/profile" element={user ? <Profile /> : <Home />} />
         <Route path="/details/:id" element={user ? <Details /> : <Home />} />
+        <Route path="/logout" element={user ? <Home /> : <Login />} />
       </Routes>
     </Router>
   );

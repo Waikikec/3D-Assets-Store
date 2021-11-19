@@ -1,5 +1,6 @@
 import './profile.css';
 import Sidebar from '../../components/sidebar/Sidebar'
+import React from 'react';
 
 export default function Profile() {
     return (

@@ -1,13 +1,14 @@
-import { useEffect, useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 
-import React from 'react';
-
+import './home.css';
 import Header from '../../components/header/Header';
 import Posts from '../../components/posts/Posts';
 import Sidebar from '../../components/sidebar/Sidebar';
 
-import './home.css';
+import { useEffect, useState } from 'react';
+
+
 
 export default function Home() {
     const [models, setModels] = useState([]);

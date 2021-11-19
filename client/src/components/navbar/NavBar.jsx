@@ -1,8 +1,16 @@
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+
+import { Context } from '../../context/Context';
+
 import './navbar.css';
 
 export default function NavBar() {
-    const user = false;
+    const { user, dispatch } = useContext(Context);
+    const logoutHandler = (e) => {
+        dispatch({ type: "LOGOUT" });
+    };
+
     return (
         <div className="nav">
             <div className="navLeft">
@@ -14,9 +22,13 @@ export default function NavBar() {
                 <ul className="navList">
                     <li className="navItem"><Link className="link" to="/" >HOME</Link></li>
                     <li className="navItem"><Link className="link" to="/details/123" >DETAILS</Link></li>
-                    <li className="navItem"><Link className="link" to="/model" >MODEL</Link></li>
+                    <li className="navItem"><Link className="link" to="/model" >ADD MODEL</Link></li>
                     <li className="navItem"><Link className="link" to="/profile" >PROFILE</Link></li>
-                    <li className="navItem"><Link className="link" to="/logout" >LOGOUT</Link></li>
+                    <li className="navItem">
+                        <Link className="link" to="/logout" onClick={logoutHandler}>
+                            {user && "LOGOUT"}
+                        </Link>
+                    </li>
                 </ul>
             </div>
             <div className="navRight">
@@ -24,7 +36,7 @@ export default function NavBar() {
                     user ? (
                         <img
                             className="navImage"
-                            src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                            src={user.profilePicture}
                             alt=""
                         />
                     ) : (
