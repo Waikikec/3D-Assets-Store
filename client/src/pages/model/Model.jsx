@@ -22,7 +22,6 @@ export default function Model() {
             data.append('name', filename);
             data.append('file', file);
             newModel.render = filename;
-            console.log(newModel);
             try {
                 await axios.post('/upload', data);
             } catch (err) { }

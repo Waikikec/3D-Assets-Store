@@ -6,7 +6,7 @@ export default function Header() {
     return (
         <div className="header">
             <div className="headerTitles">
-                <span className="headTitleSm">React & Node</span>
+                <span className="headTitleSm">CG CREATORS</span>
                 <span className="headTitleLg">Blog</span>
             </div>
             <img

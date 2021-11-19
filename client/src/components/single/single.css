@@ -5,6 +5,8 @@
 .singleWrapper {
     padding: 20px;
     padding-right: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .singleImg {
@@ -54,8 +56,50 @@
     line-height: 25px;
 }
 
-.singleDesc::first-letter{
+.singleDesc::first-letter {
     margin-left: 20px;
     font-size: 30px;
     font-weight: 700;
+}
+
+.singlePostTitleInput {
+    margin: 10px;
+    font-family: 'Mohave', sans-serif;
+    font-size: 28px;
+    text-align: center;
+    border: none;
+    color: gray;
+    border-bottom: 1px solid lightgray;
+}
+
+.singlePostTitleInput:focus {
+    outline: none;
+}
+
+.singlePostDescInput {
+    margin: 10px;
+    font-family: 'Mohave', sans-serif;
+    font-size: 18px;
+    text-align: center;
+    border: none;
+    color: gray;
+    border-bottom: 1px solid lightgray;
+}
+
+.singlePostDescInput:focus {
+    outline: none;
+}
+
+.singlePostButtonSave {
+    font-family: 'Mohave', sans-serif;
+    font-size: 18px;
+    width: 100px;
+    border: none;
+    background-color: teal;
+    padding: 10px;
+    color: whitesmoke;
+    border-radius: 10px;
+    cursor: pointer;
+    align-self: center;
+    margin-top: 20px;
 }

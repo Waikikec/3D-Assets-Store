@@ -16,8 +16,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
     try {
         const model = await Model.findById(req.params.id);
-        console.log(req.body);
-        if (model.author.toString() === req.body.author) {
+        if (model.author === req.body.username) {
             try {
                 const updatedModel = await Model
                     .findByIdAndUpdate(req.params.id,
@@ -38,7 +37,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     try {
         const model = await Model.findById(req.params.id);
-        if (model.author.toString() === req.body.author) {
+        if (model.author.toString() === req.body.username) {
             try {
                 await model.delete();
                 res.status(200).json('Model has been deleted!');
@@ -64,18 +63,18 @@ router.get('/:id', async (req, res) => {
 
 router.get('/', async (req, res) => {
     const category = req.query.category;
-    const user = await User.find({ username: req.query.user });  
+    const user = req.query.user;
 
     try {
         let models;
-        if (!user) {
-            models = await Model.find({ author: user[0] });
+        if (user) {
+            models = await Model.find({ author: user });
         } else if (category) {
             models = await Model.find({
                 categories: { $in: [category] }
             });
         } else {
-            models = await Model.find({});
+            models = await Model.find();
         }
         res.status(200).json(models);
     } catch (error) {
