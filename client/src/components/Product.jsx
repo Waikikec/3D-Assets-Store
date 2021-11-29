@@ -30,6 +30,7 @@ const Container = styled.div`
     min-width: 200px;
     height: 300px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     position: relative;
@@ -62,6 +63,10 @@ const Image = styled.img`
     z-index: 2;
 `;
 
+const Title = styled.span`
+    font-size: 12px;
+`;
+
 const Product = ({ item }) => {
     return (
         <Container>
@@ -79,6 +84,7 @@ const Product = ({ item }) => {
                     <FavoriteBorderOutlinedIcon />
                 </Icon>
             </Info>
+            <Title>{item.title}</Title>
         </Container>
     )
 }

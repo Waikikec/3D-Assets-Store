@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Model from "./pages/Model";
 import Details from "./pages/Details";
+import Catalog from "./pages/Catalog";
 
 // import React, { useContext } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -11,7 +12,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   // const { user } = useContext(Context);
-  const { user } = false;
+  const { user } = true;
   return (
     <BrowserRouter>
       <Routes>
@@ -21,8 +22,9 @@ function App() {
         <Route path="/login" element={user ? <Home /> : <Login />} />
         {/* PAGES FOR USER */}
         <Route path="/model" element={user ? <Model /> : <Register />} />
-        <Route path="/profile" element={user ? <Profile /> : <Home />} />
-        <Route path="/details/:id" element={user ? <Details /> : <Home />} />
+        <Route path="/profile" element={user ? <Profile /> : <Profile />} />
+        <Route path="/catalog" element={user ? <Catalog /> : <Catalog />} />
+        <Route path="/details/:id" element={user ? <Details /> : <Details />} />
         <Route path="/logout" element={user ? <Home /> : <Login />} />
       </Routes>
     </BrowserRouter>
