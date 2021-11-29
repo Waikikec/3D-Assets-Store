@@ -91,10 +91,6 @@ const Room = styled.div``;
 const Phone = styled.div``;
 const Mail = styled.div``;
 
-const Payment = styled.img`
-    width: 50%;
-`;
-
 const Footer = () => {
     return (
         <Container>
@@ -134,7 +130,6 @@ const Footer = () => {
                     <AlternateEmailIcon />
                     <Mail style={{ marginRight: "10px" }} />contact@gmail.com
                 </ContactItem>
-                <Payment src="https://i.ibb.co/Qfvn4z6/payment.png" />
             </Right>
         </Container>
     )

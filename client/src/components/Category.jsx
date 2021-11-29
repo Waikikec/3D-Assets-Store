@@ -32,6 +32,9 @@ const Info = styled.div`
     align-items: center;
     justify-content: center;
 `;
+const Background = styled.div`
+    background-color: grey;
+`;
 
 const Title = styled.h1`
     color: white;
@@ -44,6 +47,7 @@ const Category = ({ item }) => {
             <Link to={`/categories/${item.category}`}>
                 <Image src={item.img}></Image>
                 <Info>
+                    <Background />
                     <Title>{item.title}</Title>
                 </Info>
             </Link>

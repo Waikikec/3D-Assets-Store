@@ -105,10 +105,11 @@ const Navbar = () => {
                     </SearchContainer>
                 </Left>
                 <Center>
-                    <MenuItem>Catalog</MenuItem>
-                    <MenuItem>Favourites</MenuItem>
-                    <MenuItem>Tutorials</MenuItem>
-                    <MenuItem>Studio Sets</MenuItem>
+                    <MenuItem>CATALOG</MenuItem>
+                    <MenuItem>CREATE</MenuItem>
+                    <MenuItem>FAVOURITES</MenuItem>
+                    <MenuItem>TUTORIALS</MenuItem>
+                    <MenuItem>STUDIO SETS</MenuItem>
                 </Center>
                 <Right>
                     <Link to='/register'>
