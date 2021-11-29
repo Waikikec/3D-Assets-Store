@@ -1,7 +1,6 @@
-import './model.css';
 import axios from 'axios';
 import React, { useContext, useState } from 'react';
-import { Context } from '../../context/Context';
+import { Context } from '../context/Context';
 
 export default function Model() {
     const [title, setTitle] = useState("");

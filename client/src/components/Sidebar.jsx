@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import React from 'react';
 
-import './sidebar.css';
+// import './sidebar.css';
 import { Link } from 'react-router-dom';
 
 export default function Sidebar() {

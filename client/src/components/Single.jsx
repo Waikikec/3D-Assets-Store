@@ -2,9 +2,9 @@ import axios from 'axios';
 import React, { useContext, useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 
-import './single.css';
+// import './single.css';
 import { Link } from 'react-router-dom';
-import { Context } from '../../context/Context';
+import { Context } from '../context/Context';
 
 export default function Single() {
     const location = useLocation();
