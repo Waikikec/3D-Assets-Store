@@ -1,16 +1,10 @@
-import React, { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
-
-import IconButton from '@mui/material/IconButton';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
-// import Radio from '@mui/material/Radio';
-// import RadioGroup from '@mui/material/RadioGroup';
-// import FormControlLabel from '@mui/material/FormControlLabel';
-// import FormControl from '@mui/material/FormControl';
-// import FormLabel from '@mui/material/FormLabel';
+import RadioBtn from '../components/Buttons/RadioBtn';
 
 const Container = styled.div``;
 
@@ -49,23 +43,10 @@ const Label = styled.label`
 
 const Input = styled.input`
     width: 100%;
-    margin: 10px 0px 10px -10px;
-    padding: 10px 10px;
+    margin: 10px 10px 10px 0px;
+    padding: 10px;
     border-radius: 5px;
     border: 1px solid grey;
-`;
-
-//Profile Picture
-const Requirements = styled.div`
-    height:100%;
-    display: flex;
-    flex: 1;
-    align-items: center;
-    flex-direction: column;
-`;
-
-const Info = styled.p`
-    margin: 30px;
 `;
 
 const Button = styled.button`
@@ -81,153 +62,193 @@ const Button = styled.button`
 const Textarea = styled.textarea`
     width: 100%;
     height: 50px;
-    margin: 10px 0px;
-    padding: 10px 0px;
+    margin: 10px 10px 10px 0px;
+    padding: 10px;
+    border-radius: 5px;
     resize: none;
 `;
 
-//Radio Group Buttons
-const RadioContainer = styled.label`
-    /* background-color: teal; */
-    height: auto;
-    width: 100%;
-    padding: 0px 16px 24px 16px;
-    box-sizing: border-box;
-`;
-
-const RadioItem = styled.div`
+const RadioContainer = styled.div`
     display: flex;
+    font-size: 14px;
+    padding-left: 15px;
+`;
+
+const Parameters = styled.div`
+    display: flex;
+`;
+
+const Select = styled.select`
+    padding: 5px;
+    margin: 10px 10px 10px 0px;
+    border-radius: 5px;
+`;
+const Option = styled.option``;
+
+//Profile Picture
+const Requirements = styled.div`
+    margin: 30px 0px 30px 40px;
+    height:100%;
+    display: flex;
+    flex: 1;
     align-items: center;
-    height: 48px;
-    position: relative;
+    flex-direction: column;
 `;
 
-const RadioLabel = styled.label`
-    background-color: yellow;
-    position: relative;
-    top: 25%;
-    left: 4px;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: white;
-    border: 1px solid #bebebe;
-`;
-
-const RadioBtn = styled.input`
-  opacity: 100;
-  z-index: 1;
-  border-radius: 50%;
-  width: 20px;
-  height: 24px;
-  margin-right: 10px;
-    
-  &:hover ~ ${RadioLabel} {
-  background: #bebebe;
-  &::after {
-      content: "";
-      /* display: block; */
-      border-radius: 50%;
-      width: 12px;
-      height: 12px;
-      margin: 6px;
-      background: #eeeeee;
-    }
-  }
-
-  ${(props) =>
-        props.checked &&        ` 
-    &:checked + ${RadioLabel} {
-      background: #db7290;
-      border: 1px solid #db7290;
-      &::after {
-        content: "";
-        display: block;
-        border-radius: 50%;
-        width: 12px;
-        height: 12px;
-        margin: 6px;
-        box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.1);
-        background: white;
-      }
-    }
-  `}
-`;
-
-const RadioSpan = styled.div`
-    padding: 10px;
-    margin: 10px 0px;
+const Text = styled.p`
+    font-size: 14px;
+    margin: 10px;
 `;
 
 const Create = () => {
-    const [select, setSelect] = useState("");
-    const handleSelectChange = (event) => {
-      const value = event.target.value;
-      setSelect(value);
-    };
+    const [values, setValues] = useState({
+        title: '',
+        imageUrl: '',
+        color: [],
+        software: '',
+        category: '',
+        material: [],
+        style: '',
+        render: '',
+        description: '',
+        tags: [],
+    });
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const newModel = { ...values };
+        console.log(newModel);
+    }
+
+
+    const onChange = (e) => {
+        setValues({ ...values, [e.target.name]: e.target.value });
+    }
+
+    // useEffect(() => {
+    //     const createModel = async () => {
+    //         try {
+    //             const res = await axios.post('/models/');
+    //             console.log(res.data);
+    //         } catch (error) { }
+    //     }
+    //     createModel();
+    // }, []);
 
     return (
         <Container>
             <Navbar />
             <Wrapper>
                 <UpdateInfo>
-                    <Form>
+                    <Form onSubmit={handleSubmit}>
                         <Title>Model Upload</Title>
                         <Label>Title</Label>
-                        <Input placeholder="Enter text" />
+                        <Input
+                            name="title"
+                            placeholder="Enter text"
+                            onChange={onChange}
+                        />
                         <Label>3D Model</Label>
-                        <Input placeholder="Select a file" />
+                        <Input
+                            name="model"
+                            placeholder="Select a file"
+                        />
 
                         <Label>1 Render</Label>
-                        <Input placeholder="Select a file(no more than 5mb, format: jpeg, png)" />
+                        <Input
+                            name="imageUrl"
+                            placeholder="Select a file(no more than 5mb, format: jpeg, png)"
+                            onChange={onChange}
+                        />
+
+                        <Label>Color</Label>
+                        <Input
+                            name="color"
+                            placeholder="Enter colors separated with comma"
+                            onChange={onChange}
+                        />
+
+                        <Label>Parameters</Label>
+                        <Parameters>
+                            <Select name="software" onChange={onChange}>
+                                <Option selected="selected" disabled>Software</Option>
+                                <Option>3D Studio Max</Option>
+                                <Option>Maya</Option>
+                                <Option>Blender</Option>
+                            </Select>
+                            <Select name="category" onChange={onChange}>
+                                <Option selected="selected" disabled>Category</Option>
+                                <Option>Furniture</Option>
+                                <Option>Technology</Option>
+                                <Option>Lighting</Option>
+                                <Option>Kitchen</Option>
+                                <Option>Bathroom</Option>
+                                <Option>Plants</Option>
+                                <Option>Decoration</Option>
+                            </Select>
+                            <Select name="material" onChange={onChange}>
+                                <Option selected="selected" disabled>Material</Option>
+                                <Option>Concrete</Option>
+                                <Option>Fabric</Option>
+                                <Option>Glass</Option>
+                                <Option>Metal</Option>
+                                <Option>Wood</Option>
+                                <Option>Stone</Option>
+                                <Option>Leather</Option>
+                                <Option>Brick</Option>
+                            </Select>
+                        </Parameters>
 
                         <Label>Style</Label>
-                        <RadioContainer>
-
-                            <RadioItem>
-                                <RadioBtn
-                                    type="radio"
-                                    value="classic"
-                                    checked={select === "classic"}
-                                    onChange={(event) => handleSelectChange(event)}
-                                />
-                                <RadioSpan>Classic</RadioSpan>
-                            </RadioItem>
-                            <RadioItem>
-                                <RadioBtn
-                                    type="radio"
-                                    value="modern"
-                                    checked={select === "modern"}
-                                    onChange={(event) => handleSelectChange(event)}
-                                />
-                                <RadioSpan>Modern</RadioSpan>
-                            </RadioItem>
+                        <RadioContainer onChange={onChange}>
+                            <RadioBtn name="style">Modern</RadioBtn>
+                            <RadioBtn name="style">Classic</RadioBtn>
                         </RadioContainer>
+
+                        <Label>Render</Label>
+                        <RadioContainer onChange={onChange}>
+                            <RadioBtn name="render">Vray</RadioBtn>
+                            <RadioBtn name="render">Corona</RadioBtn>
+                            <RadioBtn name="render">Vray/Corona</RadioBtn>
+                        </RadioContainer>
+
                         <Label>Description</Label>
-                        <Textarea placeholder="Enter text(no more than 5000 characters)" />
+                        <Textarea
+                            name="description"
+                            placeholder="Enter text(no more than 5000 characters)"
+                            onChange={onChange}
+                        />
 
                         <Label>Tags</Label>
-                        <Textarea placeholder="Enter value(comma separated)" />
-
-                        <Button>SAVE</Button>
+                        <Textarea
+                            name="tags"
+                            placeholder="Enter value(comma separated)"
+                            onChange={onChange}
+                        />
+                        <Button onClick={handleSubmit}>UPLOAD</Button>
                     </Form>
                     <Requirements>
-                        <Info>
-                            Requirements
-                            Only send your models
+                        <Label>REQUIREMENTS</Label>
+                        <Text >{`
+                            Only send your models.
                             Not yours and library models will be deleted and you will be banned.
-                            Model requirements
-                            1. Preview form: square. Minimum size: 640x640px. On the preview, there should be nothing except the model. It is forbidden to place any trademarks. Photos are not accepted.
-                            2. In the scene, only the model itself, without trash geometry, cameras and light.
-                            3. Be sure to attach a copy in .fbx or .obj to models created in versions older than 2009.
-                            Moderation takes 1-2 days
-                            If the model has not pass moderation, you will receive a reason message. Models that have pass moderation are displayed in your profile.
-                            Model acceptance rules
-                            Rules for creating tags
-                            Preparing models for uploading into the database
-                            Render Studio 3ds Max 2010 and higher (Vray)
-                            Render studio 3ds Max 2013 and above (Corona)
-                        </Info>
+                            `}</Text>
+                        <Label>Model requirements</Label>
+                        <Text>{`
+                        1. Preview form: square. Minimum size: 640x640px. On the preview, there should be nothing except the model. It is forbidden to place any trademarks. Photos are not accepted.
+                        2. In the scene, only the model itself, without trash geometry, cameras and light.
+                        3. Be sure to attach a copy in .fbx or .obj to models created in versions older than 2009.
+                        Moderation takes 1-2 days~
+                        If the model has not pass moderation, you will receive a reason message. Models that have pass moderation are displayed in your profile.
+                        `}</Text>
+                        <Text>
+                            Model acceptance rules{'\n'}
+                            Rules for creating tags{'\n'}
+                            Preparing models for uploading into the database{'\n'}
+                            Render Studio 3ds Max 2010 and higher (Vray){'\n'}
+                            Render studio 3ds Max 2013 and above (Corona){'\n'}
+                        </Text>
                     </Requirements>
                 </UpdateInfo>
             </Wrapper>

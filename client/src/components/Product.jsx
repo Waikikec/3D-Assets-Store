@@ -24,7 +24,6 @@ const Info = styled.div`
 `;
 
 const Container = styled.div`
-    /* background-color: whitesmoke; */
     border-radius: 10px;
     flex: 1;
     margin: 5px;
@@ -61,7 +60,7 @@ const Icon = styled.div`
 
 const Image = styled.img`
     object-fit: contain;
-    height: 70%;
+    height: 50%;
     z-index: 2;
 `;
 

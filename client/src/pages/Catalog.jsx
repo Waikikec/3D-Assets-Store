@@ -10,13 +10,11 @@ import { mobile } from '../responsive';
 const Container = styled.div``;
 
 const Title = styled.h1`
-    background-color: teal;
     text-align: center;
     margin:20px;
 `;
 
 const FilterContainer = styled.div`
-    background-color: thistle;
     display: flex;
     justify-content: space-between;
 `;
@@ -38,6 +36,7 @@ const Select = styled.select`
     margin-right: 20px;
     ${mobile({ margin: "10px 0px" })};
 `;
+
 const Option = styled.option``;
 
 const Catalog = () => {
