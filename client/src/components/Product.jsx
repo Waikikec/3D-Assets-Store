@@ -14,7 +14,8 @@ const Info = styled.div`
     position: absolute;
     top: 0;
     left: 0;
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 10px;
     z-index: 3;
     display: flex;
     align-items: center;
@@ -23,7 +24,7 @@ const Info = styled.div`
 `;
 
 const Container = styled.div`
-    background-color: whitesmoke;
+    /* background-color: whitesmoke; */
     border-radius: 10px;
     flex: 1;
     margin: 5px;
@@ -59,13 +60,15 @@ const Icon = styled.div`
 `;
 
 const Image = styled.img`
-    object-fit: cover;
+    object-fit: contain;
     height: 70%;
     z-index: 2;
 `;
 
 const Title = styled.span`
-    font-size: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 10px;
 `;
 
 const Product = ({ item }) => {

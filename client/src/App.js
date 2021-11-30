@@ -3,7 +3,6 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Model from "./pages/Model";
-import Details from "./pages/Details";
 import Catalog from "./pages/Catalog";
 import SinglePage from "./pages/SinglePage";
 
@@ -28,7 +27,6 @@ function App() {
         <Route path="/profile" element={user ? <Profile /> : <Profile />} />
         <Route path="/model/:id" element={user ? <SinglePage /> : <SinglePage />} />
         <Route path="/catalog" element={user ? <Catalog /> : <Catalog />} />
-        <Route path="/details/:id" element={user ? <Details /> : <Details />} />
         <Route path="/logout" element={user ? <Home /> : <Login />} />
       </Routes>
     </BrowserRouter>

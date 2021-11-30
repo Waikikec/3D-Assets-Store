@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
 
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
-
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { mobile } from '../responsive';
-import { popularProducts } from '../data';
-
+import { green, red } from '@mui/material/colors';
 
 const Container = styled.div``;
 
 const Wrapper = styled.div`
-    background-color: whitesmoke;
     padding: 50px;
     display: flex;
     ${mobile({ padding: "10px", flexDirection: "column" })};
 `;
 
+//Image Container
 const ImgContainer = styled.div`
     flex: 1;
 `;
@@ -31,163 +30,199 @@ const Image = styled.img`
     ${mobile({ height: "40vh" })};
 `;
 
+//Model Information
 const InfoContainer = styled.div`
     flex: 1;
-    padding: 0px 50px;
+    padding: 50px 50px;
     ${mobile({ padding: "10px" })};
 `;
-const Title = styled.h1`
-    font-weight: 200;
+const ModelTitle = styled.h1`
+    font-weight: 300;
 `;
-const Desc = styled.p`
-    margin: 20px 0px;
-`;
-
-const Price = styled.span`
-    font-weight: 100;
-    font-size: 40px;
+const ModelAuthor = styled.p`
+    font-weight: 600;
+    margin: 10px;
+    color: grey;
 `;
 
-const FilterContainer = styled.div`
-    width: 50%;
-    margin: 30px 0px;
-    display: flex;
-    justify-content: space-between;
-    ${mobile({ width: "100%" })};
-`;
-
-const Filter = styled.div`
+const Price = styled.div`
     display: flex;
     align-items: center;
-`;
-
-const FilterTitle = styled.span`
+    justify-content: center;
+    padding: 5px;
+    font-weight: 300;
     font-size: 20px;
-    font-weight: 200;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: whitesmoke;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 `;
 
-const FilterColor = styled.div`
+const ModelDetails = styled.div`
+    width: 100%;
+    margin: 30px 0px 10px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    background-color: whitesmoke;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+`;
+
+const ModelItem = styled.div`
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`;
+
+const ModelProperty = styled.span`
+    font-size: 16px;
+    font-weight: 600;
+`;
+
+const ModelPropInfo = styled.span`
+    padding-left: 10px;
+    font-size: 16px;
+    font-weight: 300;
+    display: flex;
+    justify-content: flex-end;
+`;
+
+const ModelColor = styled.div`  
     width: 20px;
     height: 20px;
     border-radius: 50%;
     background-color: ${props => props.color};
     margin: 0px 5px;
-    cursor: pointer;
 `;
 
-const FilterSize = styled.select`
-    margin-left: 10px;
-    padding: 5px;
+const ModelSpan = styled.span`
+    padding-left: 10px;
+    font-size: 16px;
+    font-weight: 300;
+    display: flex;
+    justify-content: flex-end;
 `;
 
-const FilterSizeOption = styled.option``;
+const Hr = styled.hr`
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.05));
+`;
 
-const AddContainer = styled.div`
+//Description Container
+const ModelDesc = styled.div`
     width: 50%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex;
     ${mobile({ width: "100%" })};
 `;
-const AmountContainer = styled.div`
-    display: flex;
-    align-items: center;
-    font-weight: 700;
+
+const ModelTitleSection = styled.div`
+    font-size: 20px;
+    font-weight: 600;
+    padding: 20px 0px;
 `;
 
-const Amount = styled.span`
-    width: 30px;
-    height: 30px;
-    border: 2px solid yellowgreen;
-    border-radius: 10px;
+const Button = styled.div`
+    font-size: 40px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0px 5px;
-`;
-
-const Button = styled.button`
-    padding: 15px;
-    border: 2px solid yellowgreen;
-    border-radius: 10px;
-    background-color: white;
-    font-weight: 500;
-    cursor: pointer;
-
-    &:hover{
-        background-color: whitesmoke;
-    }
+    justify-content: flex-end;
+    padding: 20px 0px;
 `;
 
 const SinglePage = () => {
-    // const location = useLocation();
-    // const id = location.pathname.split('/')[2];
+    const DATE_OPTIONS = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+    const location = useLocation();
+    const id = location.pathname.split('/')[2];
 
-    // const [product, setProduct] = useState({});
-    // const [quantity, setQuantity] = useState(1);
-    // const [color, setColor] = useState('');
-    // const [size, setSize] = useState('');
+    const [product, setProduct] = useState({});
     // const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     const getProduct = async () => {
-    //         try {
-    //             const res = await publicRequest.get("/products/find/" + id);
-    //             setProduct(res.data);
-    //         } catch (error) { }
-    //     }
-    //     getProduct();
-    // }, [id]);
-
-    // const handleQuantity = (type) => {
-    //     if (type === 'decrease') {
-    //         quantity > 1 && setQuantity(quantity - 1);
-    //     } else {
-    //         setQuantity(quantity + 1);
-    //     }
-    // }
-
-    // const handleAddtoCard = () => {
-    //     dispatch(
-    //         addProduct({ ...product, quantity, color, size })
-    //     );
-    // }
+    useEffect(() => {
+        const getProduct = async () => {
+            try {
+                const res = await axios.get('/models/' + id);
+                setProduct(res.data);
+            } catch (error) { }
+        }
+        getProduct();
+    }, [id]);
 
     return (
         <Container>
             <Navbar />
             <Wrapper>
                 <ImgContainer>
-                    <Image src={popularProducts[0].img} />
+                    <Image src={product.imageUrl} />
                 </ImgContainer>
                 <InfoContainer>
-                    <Title>{popularProducts[0].title}</Title>
-                    <Desc>{popularProducts[0].desc}</Desc>
-                    <Price>$ {popularProducts[0].price}</Price>
-                    <FilterContainer>
-                        <Filter>
-                            <FilterTitle>Color</FilterTitle>
-                            {/* {popularProducts[0].color?.map((c) => (
-                                <FilterColor color={c} key={c} onClick={() => setColor(c)} />
-                            ))} */}
-                        </Filter>
-                        <Filter>
-                            <FilterTitle>Size</FilterTitle>
-                            {/* <FilterSize onChange={(e) => setSize(e.target.value)}>
-                                {product.size?.map((s) => (
-                                    <FilterSizeOption key={s}>{s}</FilterSizeOption>
-                                ))} */}
-                            {/* </FilterSize> */}
-                        </Filter>
-                    </FilterContainer>
-                    <AddContainer>
-                        <AmountContainer>
-                            {/* <RemoveIcon onClick={() => handleQuantity('decrease')} /> */}
-                            {/* <Amount>{quantity}</Amount> */}
-                            {/* <AddIcon onClick={() => handleQuantity('increase')} /> */}
-                        </AmountContainer>
-                        {/* <Button onClick={handleAddtoCard}>ADD TO CARD</Button> */}
-                    </AddContainer>
+                    <ModelTitle>{product.title}</ModelTitle>
+                    <ModelAuthor>Author: {product.author}</ModelAuthor>
+                    <Price>$ 7</Price>
+                    <ModelDetails>
+                        <ModelItem>
+                            <ModelProperty>Platform:</ModelProperty>
+                            <ModelPropInfo>{product.software}</ModelPropInfo>
+                        </ModelItem>
+                        <Hr />
+                        <ModelItem>
+                            <ModelProperty>Render:</ModelProperty>
+                            <ModelPropInfo>{product.render}</ModelPropInfo>
+                        </ModelItem>
+                        <Hr />
+                        <ModelItem>
+                            <ModelProperty>Date:</ModelProperty>
+                            <ModelPropInfo>
+                                {new Date(product.createdAt).toLocaleDateString('en-US', DATE_OPTIONS)}
+                            </ModelPropInfo>
+                        </ModelItem>
+                        <Hr />
+                        <ModelItem>
+                            <ModelProperty>Style:</ModelProperty>
+                            <ModelPropInfo>{product.style}</ModelPropInfo>
+                        </ModelItem>
+                        <Hr />
+                        <ModelItem>
+                            <ModelProperty>Material:</ModelProperty>
+                            <ModelPropInfo>
+                                {product.material?.map((t) => (
+                                    <ModelSpan>{t}</ModelSpan>
+                                ))}
+                            </ModelPropInfo>
+                        </ModelItem>
+                        <Hr />
+                        <ModelItem>
+                            <ModelProperty>Color:</ModelProperty>
+                            <ModelPropInfo>
+                                {product.color?.map((c) => (
+                                    <ModelColor color={c} key={c} />
+                                ))}
+                            </ModelPropInfo>
+                        </ModelItem>
+                        <Hr />
+                        <ModelItem>
+                            <ModelProperty>Category:</ModelProperty>
+                            <ModelPropInfo>{product.category}</ModelPropInfo>
+                        </ModelItem>
+                    </ModelDetails>
+                    <ModelTitleSection>DESCRIPTION</ModelTitleSection>
+                    <ModelDesc>{product.description}</ModelDesc>
+                    <ModelTitleSection>TAGS</ModelTitleSection>
+                    <ModelDesc>
+                        {product.tags?.map((t) => (
+                            <ModelSpan>{t}</ModelSpan>
+                        ))}
+                    </ModelDesc>
+                    <Button>
+                        <Link to={`/edit/${product._id}`}>
+                            <EditIcon sx={{ color: green[500], fontSize: 30 }} />
+                        </Link>
+                        <Link to={`/delete/${product._id}`}>
+                            <DeleteIcon sx={{ color: red[500], fontSize: 30 }} />
+                        </Link>
+                    </Button>
                 </InfoContainer>
             </Wrapper>
             <Footer />

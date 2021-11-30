@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 import Product from './Product';
-import { popularProducts } from '../data';
-
 
 const Container = styled.div`
     display: flex;
@@ -29,7 +27,7 @@ const Products = () => {
     return (
         <Container>
             {products.map(item => (
-                <Product item={item} key={item.id} />
+                <Product item={item} key={item._id} />
             ))}
         </Container>
     )

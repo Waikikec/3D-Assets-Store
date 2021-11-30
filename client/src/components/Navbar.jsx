@@ -105,7 +105,9 @@ const Navbar = () => {
                     </SearchContainer>
                 </Left>
                 <Center>
-                    <MenuItem>CATALOG</MenuItem>
+                    <Link to="/catalog">
+                        <MenuItem>CATALOG</MenuItem>
+                    </Link>
                     <Link to="/create">
                         <MenuItem>CREATE</MenuItem>
                     </Link>
