@@ -44,7 +44,7 @@ const Catalog = () => {
     return (
         <Container>
             <Navbar />
-            <Title>3D Models</Title>
+            <Title>CATALOG</Title>
             <FilterContainer>
                 <Filter>
                     <FilterText>Filter Products:</FilterText>

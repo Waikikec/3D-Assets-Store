@@ -59,7 +59,8 @@ const Icon = styled.div`
 `;
 
 const Image = styled.img`
-    height: 60%;
+    object-fit: cover;
+    height: 70%;
     z-index: 2;
 `;
 
@@ -70,13 +71,13 @@ const Title = styled.span`
 const Product = ({ item }) => {
     return (
         <Container>
-            <Image src={item.img} />
+            <Image src={item.imageUrl} />
             <Info>
                 <Icon>
                     <ShoppingCartOutlinedIcon />
                 </Icon>
                 <Icon>
-                    <Link to={`/product/${item._id}`}>
+                    <Link to={`/model/${item._id}`}>
                         <SearchOutlinedIcon />
                     </Link>
                 </Icon>

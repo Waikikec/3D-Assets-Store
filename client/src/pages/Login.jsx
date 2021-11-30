@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { mobile } from '../responsive';
@@ -6,7 +7,6 @@ import { mobile } from '../responsive';
 const Container = styled.div`
     width: 100vw;
     height: 100vh;
-    background-color: whitesmoke;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -15,7 +15,7 @@ const Container = styled.div`
 const Wrapper = styled.div`
     width: 20%;
     padding: 20px;
-    background-color: white;
+    background-color: whitesmoke;
     ${mobile({ width: "75%" })};
 `;
 
@@ -59,7 +59,7 @@ const Label = styled.label`
     padding: 10px 0px;
 `;
 
-const Link = styled.a`
+const Text = styled.a`
     margin: 10px 0px;
     font-size: 12px;
     text-decoration: underline;
@@ -103,8 +103,10 @@ const Login = () => {
                         SIGN IN
                     </Button>
                     {/* {error && <Error>Somethng went wrong!</Error>} */}
-                    <Link>DO NOT YOU REMEMBER THE PASSWORD?</Link>
-                    <Link>CREATE A NEW ACCOUNT</Link>
+                    <Text>DO NOT YOU REMEMBER THE PASSWORD?</Text>
+                    <Link to="/register">
+                        <Text>CREATE A NEW ACCOUNT</Text>
+                    </Link>
                 </Form>
             </Wrapper>
         </Container>
