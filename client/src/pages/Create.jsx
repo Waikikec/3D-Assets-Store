@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
-import RadioBtn from '../components/Buttons/RadioBtn';
+import RadioBtn from '../components/RadioBtn';
+import MultiSelect from '../components/MultiSelect';
 
 const Container = styled.div``;
 
@@ -49,6 +50,11 @@ const Input = styled.input`
     border: 1px solid grey;
 `;
 
+const Div4e = styled.div`
+    width: 100%;
+    margin: 10px 10px 10px 0px;
+`;
+
 const Button = styled.button`
     width: 40%;
     border: none;
@@ -88,7 +94,7 @@ const Option = styled.option``;
 //Profile Picture
 const Requirements = styled.div`
     margin: 30px 0px 30px 40px;
-    height:100%;
+    height: 100%;
     display: flex;
     flex: 1;
     align-items: center;
@@ -96,8 +102,9 @@ const Requirements = styled.div`
 `;
 
 const Text = styled.p`
+    text-align: left;
+    padding: 5px;
     font-size: 14px;
-    margin: 10px;
 `;
 
 const Create = () => {
@@ -114,27 +121,30 @@ const Create = () => {
         tags: [],
     });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const newModel = { ...values };
         console.log(newModel);
+        try {
+            const res = await axios.post('/models/', newModel);
+            console.log(res.data);
+        } catch (error) { }
+
     }
 
 
     const onChange = (e) => {
-        setValues({ ...values, [e.target.name]: e.target.value });
+        if (e.target.name === 'color' || e.target.name === 'tags' || e.target.name === 'material') {
+            let tokens = e.target.value
+                .split(',')
+                .map(i => i.trim());
+            setValues({ ...values, [e.target.name]: tokens });
+        } else {
+            setValues({ ...values, [e.target.name]: e.target.value });
+        }
+        console.log(values);
     }
-
-    // useEffect(() => {
-    //     const createModel = async () => {
-    //         try {
-    //             const res = await axios.post('/models/');
-    //             console.log(res.data);
-    //         } catch (error) { }
-    //     }
-    //     createModel();
-    // }, []);
 
     return (
         <Container>
@@ -151,18 +161,21 @@ const Create = () => {
                         />
                         <Label>3D Model</Label>
                         <Input
+                            // type="file"
+                            disabled
                             name="model"
-                            placeholder="Select a file"
+                            placeholder="Select a zip file"
                         />
 
                         <Label>1 Render</Label>
                         <Input
+                            // type="file"
                             name="imageUrl"
                             placeholder="Select a file(no more than 5mb, format: jpeg, png)"
                             onChange={onChange}
                         />
 
-                        <Label>Color</Label>
+                        <Label>Colors</Label>
                         <Input
                             name="color"
                             placeholder="Enter colors separated with comma"
@@ -187,18 +200,19 @@ const Create = () => {
                                 <Option>Plants</Option>
                                 <Option>Decoration</Option>
                             </Select>
-                            <Select name="material" onChange={onChange}>
-                                <Option selected="selected" disabled>Material</Option>
-                                <Option>Concrete</Option>
-                                <Option>Fabric</Option>
-                                <Option>Glass</Option>
-                                <Option>Metal</Option>
-                                <Option>Wood</Option>
-                                <Option>Stone</Option>
-                                <Option>Leather</Option>
-                                <Option>Brick</Option>
-                            </Select>
                         </Parameters>
+
+
+                        <Label>Materials</Label>
+                        <Input
+                            name="material"
+                            placeholder="Enter materials separated with comma"
+                            onChange={onChange}
+                        />
+                        {/* <Label>Materials</Label>
+                        <Div4e>
+                            <MultiSelect />
+                        </Div4e> */}
 
                         <Label>Style</Label>
                         <RadioContainer onChange={onChange}>
@@ -230,18 +244,15 @@ const Create = () => {
                     </Form>
                     <Requirements>
                         <Label>REQUIREMENTS</Label>
-                        <Text >{`
-                            Only send your models.
-                            Not yours and library models will be deleted and you will be banned.
-                            `}</Text>
+                        <Text>Only send your models.</Text>
+                        <Text>Not yours and library models will be deleted and you will be banned.</Text>
                         <Label>Model requirements</Label>
-                        <Text>{`
-                        1. Preview form: square. Minimum size: 640x640px. On the preview, there should be nothing except the model. It is forbidden to place any trademarks. Photos are not accepted.
-                        2. In the scene, only the model itself, without trash geometry, cameras and light.
-                        3. Be sure to attach a copy in .fbx or .obj to models created in versions older than 2009.
-                        Moderation takes 1-2 days~
-                        If the model has not pass moderation, you will receive a reason message. Models that have pass moderation are displayed in your profile.
-                        `}</Text>
+                        <Text>1. Preview form: square. Minimum size: 640x640px. On the preview, there should be nothing except the model. It is forbidden to place any trademarks. Photos are not accepted.</Text>
+                        <Text>2. In the scene, only the model itself, without trash geometry, cameras and light.</Text>
+                        <Text>3. Be sure to attach a copy in .fbx or .obj to models created in versions older than 2009.</Text>
+                        <Text>Moderation takes 1-2 days~</Text>
+                        <Text>If the model has not pass moderation, you will receive a reason message. Models that have pass moderation are displayed in your profile.</Text>
+
                         <Text>
                             Model acceptance rules{'\n'}
                             Rules for creating tags{'\n'}

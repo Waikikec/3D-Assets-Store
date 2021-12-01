@@ -10,8 +10,8 @@ const modelSchema = new mongoose.Schema({
     style: { type: String, required: true },
     render: { type: String, required: true },
     description: { type: String, required: true },
-    tags: { type: Array, required: false },
-    author: { type: String, required: true },
+    tags: { type: Array, required: true },
+    author: { type: String, required: false },
 }, {
     timestamps: true
 });

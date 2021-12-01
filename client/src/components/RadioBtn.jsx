@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from "styled-components";
 
 const RadioWrapper = styled.div`
@@ -59,12 +59,6 @@ const Label = styled.label`
 `;
 
 const RadioBtn = ({ name, children }) => {
-    // const [select, setSelect] = useState('');
-    // const handleRadioBtn = event => {
-    //     const value = event.target.value;
-    //     setSelect(value.toLowerCase());
-    // };
-
     return (
         <RadioWrapper>
             <Label>
@@ -72,8 +66,6 @@ const RadioBtn = ({ name, children }) => {
                     type="radio"
                     name={name}
                     value={children}
-                    // checked={select === children}
-                    // onChange={e => handleRadioBtn(e)}
                 />
                 <Mark />
                 {children}
