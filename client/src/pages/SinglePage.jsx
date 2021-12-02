@@ -219,7 +219,7 @@ const SinglePage = () => {
                         <Link to={`/edit/${product._id}`}>
                             <EditIcon sx={{ color: green[500], fontSize: 30 }} />
                         </Link>
-                        <Link to={`/delete/${product._id}`}>
+                        <Link to={`/models/${product._id}`}>
                             <DeleteIcon sx={{ color: red[500], fontSize: 30 }} />
                         </Link>
                     </Button>

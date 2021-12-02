@@ -1,57 +1,51 @@
 const router = require('express').Router();
 
 const Model = require('../models/Model');
-const User = require('../models/User');
 
-router.post('/', async (req, res) => {
+const { verifyToken, isUser } = require('./guards');
+
+router.post('/', isUser, async (req, res) => {
+    const model = new Model(req.body);
     try {
-        const model = await new Model(req.body);
-        await model.save();
-        res.status(200).json(model);
+        const savedOrder = await order.save();
+        res.status(200).json(savedOrder);
     } catch (err) {
         res.status(500).json(err);
     }
 })
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', isUser, async (req, res) => {
     try {
-        const model = await Model.findById(req.params.id);
-        if (model.author === req.body.username) {
-            try {
-                const updatedModel = await Model
-                    .findByIdAndUpdate(req.params.id,
-                        { $set: req.body },
-                        { new: true });
-                res.status(200).json(updatedModel);
-            } catch (error) {
-                res.status(500).json(error);
-            }
-        } else {
-            res.status(401).json('You can update only your models!');
-        }
+        const updatedModel = await Model.findByIdAndUpdate(req.params.id,
+            { $set: req.body },
+            { new: true }
+        );
+        res.status(200).json(updatedOrder);
     } catch (error) {
         res.status(500).json(error);
     }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', isUser, async (req, res) => {
     try {
-        const model = await Model.findById(req.params.id);
-        if (model.author.toString() === req.body.username) {
-            try {
-                await model.delete();
-                res.status(200).json('Model has been deleted!');
-            } catch (error) {
-                res.status(500).json(error);
-            }
-        } else {
-            res.status(401).json('You can update only your models!');
-        }
+        await Model.findByIdAndDelete(req.params.id);
+        res.status(200).json('Model has been deleted!');
     } catch (error) {
         res.status(500).json(error);
     }
 })
 
+//All Models for Catalog Page (for all USERS)
+router.get('/', async (req, res) => {
+    try {
+        const models = await Model.find();
+        res.status(200).json(models);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+})
+
+//Current Model for Detail Page (for all USERS)
 router.get('/:id', async (req, res) => {
     try {
         const model = await Model.findById(req.params.id);
@@ -61,25 +55,15 @@ router.get('/:id', async (req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
-    const category = req.query.category;
-    const user = req.query.user;
-
+//Get All Favourites Models for USER
+router.get('/favourites/:userId', isUser, async (req, res) => {
     try {
-        let models;
-        if (user) {
-            models = await Model.find({ author: user });
-        } else if (category) {
-            models = await Model.find({
-                categories: { $in: [category] }
-            });
-        } else {
-            models = await Model.find();
-        }
+        const models = await Model.find({ userId: req.params.userId });
         res.status(200).json(models);
     } catch (error) {
         res.status(500).json(error);
     }
 })
+
 
 module.exports = router;

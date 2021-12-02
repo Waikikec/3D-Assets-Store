@@ -133,7 +133,6 @@ const Create = () => {
 
     }
 
-
     const onChange = (e) => {
         if (e.target.name === 'color' || e.target.name === 'tags' || e.target.name === 'material') {
             let tokens = e.target.value

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -94,6 +94,9 @@ const ProfileName = styled.span`
 `;
 
 const Navbar = () => {
+    const location = useLocation();
+    const id = location.pathname.split('/')[2];
+
     return (
         <Container>
             <Wrapper>
@@ -125,7 +128,9 @@ const Navbar = () => {
                     <Link to='/logout'>
                         <AuthItem>LOGOUT</AuthItem>
                     </Link>
+                    <Link to={`/profile/${id}`}>
                     <ProfileImg src="https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" />
+                    </Link>
                     <ProfileName>Hello, My Name!</ProfileName>
                 </Right>
             </Wrapper>

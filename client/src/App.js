@@ -24,7 +24,7 @@ function App() {
         {/* PAGES FOR USER */}
         <Route path="/model" element={user ? <Model /> : <Model />} />
         <Route path="/create" element={user ? <Create /> : <Create />} />
-        <Route path="/profile" element={user ? <Profile /> : <Profile />} />
+        <Route path="/profile/:id" element={user ? <Profile /> : <Profile />} />
         <Route path="/model/:id" element={user ? <SinglePage /> : <SinglePage />} />
         <Route path="/catalog" element={user ? <Catalog /> : <Catalog />} />
         <Route path="/logout" element={user ? <Home /> : <Login />} />
