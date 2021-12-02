@@ -5,15 +5,13 @@ import Profile from "./pages/Profile";
 import Model from "./pages/Model";
 import Catalog from "./pages/Catalog";
 import SinglePage from "./pages/SinglePage";
-
-// import React, { useContext } from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Create from "./pages/Create";
-// import { Context } from "./context/Context";
+
+import React from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
-  // const { user } = useContext(Context);
-  const { user } = true;
+  const user = false;
   return (
     <BrowserRouter>
       <Routes>

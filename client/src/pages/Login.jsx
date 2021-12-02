@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { login } from '../redux/apiCalls';
 import { mobile } from '../responsive';
 
 const Container = styled.div`
@@ -71,38 +73,39 @@ const Error = styled.span`
 `;
 
 const Login = () => {
-    // const [username, setUsername] = useState('');
-    // const [password, setPassword] = useState('');
-    // const dispatch = useDispatch();
-    // const { isFetching, error } = useSelector((state) => state.user);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    // const handleLogin = (e) => {
-    //     e.preventDefault();
-    //     login(dispatch, { username, password });
-    // };
+    const dispatch = useDispatch();
+    //UseSelector get your REDUX store name
+    const { isFetching, error } = useSelector((store) => store.user);
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+        login(dispatch, { email, password });
+    };
 
     return (
         <Container>
             <Wrapper>
                 <Title>LOGIN</Title>
                 <Form>
-                    <Label>Username:</Label>
+                    <Label>Email:</Label>
                     <Input
-                        placeholder="Enter Username"
+                        placeholder="Enter Email"
                         type="text"
-                    // onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <Label>Password:</Label>
                     <Input
                         placeholder="Enter Password"
                         type="password"
-                    // onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => setPassword(e.target.value)}
                     />
-                    {/* <Button onClick={} disabled={}> */}
-                    <Button>
+                    <Button onClick={handleLogin} disabled={isFetching}>
                         SIGN IN
                     </Button>
-                    {/* {error && <Error>Somethng went wrong!</Error>} */}
+                    {error && <Error>Somethng went wrong!</Error>}
                     <Text>DO NOT YOU REMEMBER THE PASSWORD?</Text>
                     <Link to="/register">
                         <Text>CREATE A NEW ACCOUNT</Text>

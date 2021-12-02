@@ -1,17 +1,17 @@
 import axios from 'axios';
 import React, { useContext, useState } from 'react';
-import { Context } from '../context/Context';
+// import { Context } from '../context/Context';
 
 export default function Model() {
     const [title, setTitle] = useState("");
     const [description, setDesc] = useState("");
     const [file, setFile] = useState(null);
-    const { user } = useContext(Context);
+    // const { user } = useContext(Context);
 
     const modelHandleSubmit = async (e) => {
         e.preventDefault();
         const newModel = {
-            author: user.username,
+            // author: user.username,
             title,
             description,
         };
