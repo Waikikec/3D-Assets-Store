@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import SearchIcon from '@mui/icons-material/Search';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import { mobile } from '../responsive'
 
@@ -91,7 +92,6 @@ const ProfileImg = styled.img`
 const ProfileName = styled.span`
     margin-left: 5px;
     font-size: 14px;
-    cursor: pointer;
 `;
 
 const Navbar = () => {
@@ -114,11 +114,11 @@ const Navbar = () => {
                     <Link to="/catalog">
                         <MenuItem>CATALOG</MenuItem>
                     </Link>
-                    
+
                     <Link to="/create">
                         <MenuItem>CREATE</MenuItem>
                     </Link>
-                    
+
                     <MenuItem>FAVOURITES</MenuItem>
                     <MenuItem>TUTORIALS</MenuItem>
                     <MenuItem>STUDIO SETS</MenuItem>
@@ -132,14 +132,24 @@ const Navbar = () => {
                     </Link>
 
                     <AuthItem>LOGOUT</AuthItem>
-
-                    <Link to={`/profile/${id}`}>
-                        <ProfileImg src="https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" />
-                    </Link>
-                    <ProfileName>Hello, My Name!</ProfileName>
+                    {
+                        user
+                            ? (
+                                <Link to={`/profile/${id}`}>
+                                    <ProfileImg src={user.profilePicture} />
+                                    <ProfileName>Hello, {user.username}</ProfileName>
+                                </Link>
+                            )
+                            : (
+                                <Link to={'/login'}>
+                                    <AccountCircleIcon style={{ marginLeft: 5 }} />
+                                    <ProfileName>Hello, Guest!</ProfileName>
+                                </Link>
+                            )
+                    }
                 </Right>
             </Wrapper>
-        </Container>
+        </Container >
     )
 }
 
