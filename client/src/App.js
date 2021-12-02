@@ -1,3 +1,6 @@
+import React from 'react';
+import { useSelector } from 'react-redux';
+
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -7,11 +10,11 @@ import Catalog from "./pages/Catalog";
 import SinglePage from "./pages/SinglePage";
 import Create from "./pages/Create";
 
-import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
-  const user = false;
+  const user = useSelector(state => state.user.currentUser);
+
   return (
     <BrowserRouter>
       <Routes>

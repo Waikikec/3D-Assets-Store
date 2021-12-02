@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import SearchIcon from '@mui/icons-material/Search';
@@ -97,6 +98,8 @@ const Navbar = () => {
     const location = useLocation();
     const id = location.pathname.split('/')[2];
 
+    const user = useSelector(state => state.user.currentUser);
+
     return (
         <Container>
             <Wrapper>
@@ -111,9 +114,11 @@ const Navbar = () => {
                     <Link to="/catalog">
                         <MenuItem>CATALOG</MenuItem>
                     </Link>
+                    
                     <Link to="/create">
                         <MenuItem>CREATE</MenuItem>
                     </Link>
+                    
                     <MenuItem>FAVOURITES</MenuItem>
                     <MenuItem>TUTORIALS</MenuItem>
                     <MenuItem>STUDIO SETS</MenuItem>
@@ -125,11 +130,11 @@ const Navbar = () => {
                     <Link to='/login'>
                         <AuthItem>LOGIN</AuthItem>
                     </Link>
-                    <Link to='/logout'>
-                        <AuthItem>LOGOUT</AuthItem>
-                    </Link>
+
+                    <AuthItem>LOGOUT</AuthItem>
+
                     <Link to={`/profile/${id}`}>
-                    <ProfileImg src="https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" />
+                        <ProfileImg src="https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" />
                     </Link>
                     <ProfileName>Hello, My Name!</ProfileName>
                 </Right>

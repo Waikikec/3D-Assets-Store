@@ -77,8 +77,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
 
     const dispatch = useDispatch();
-    //UseSelector get your REDUX store name
-    const { isFetching, error } = useSelector((store) => store.user);
+    const { isFetching, error } = useSelector(state => state.user);
 
     const handleLogin = (e) => {
         e.preventDefault();
