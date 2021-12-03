@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import Category from './Category';
 
-import { categories } from '../data';
+import { categories } from '../utils/data';
 import { mobile } from '../responsive'
 
 const Container = styled.div`

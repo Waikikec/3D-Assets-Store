@@ -4,11 +4,11 @@ const Model = require('../models/Model');
 
 const { verifyToken, isUser } = require('./guards');
 
-router.post('/', isUser, async (req, res) => {
+router.post('/', async (req, res) => {
     const model = new Model(req.body);
     try {
-        const savedOrder = await order.save();
-        res.status(200).json(savedOrder);
+        const savedModel = await model.save();
+        res.status(200).json(savedModel);
     } catch (err) {
         res.status(500).json(err);
     }
@@ -20,7 +20,7 @@ router.put('/:id', isUser, async (req, res) => {
             { $set: req.body },
             { new: true }
         );
-        res.status(200).json(updatedOrder);
+        res.status(200).json(updatedModel);
     } catch (error) {
         res.status(500).json(error);
     }

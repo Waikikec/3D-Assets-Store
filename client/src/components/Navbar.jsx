@@ -104,7 +104,9 @@ const Navbar = () => {
         <Container>
             <Wrapper>
                 <Left>
-                    <Title>CG STORE</Title>
+                    <Link to="/">
+                        <Title>CG STORE</Title>
+                    </Link>
                     <SearchContainer>
                         <Input placeholder="Search" />
                         <SearchIcon style={{ color: "gray", fontSize: "16px" }} />

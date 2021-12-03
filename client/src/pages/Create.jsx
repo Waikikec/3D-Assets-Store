@@ -7,6 +7,9 @@ import Navbar from '../components/Navbar';
 import RadioBtn from '../components/RadioBtn';
 import MultiSelect from '../components/MultiSelect';
 
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import app from '../utils/firebase';
+
 const Container = styled.div``;
 
 const Wrapper = styled.div`
@@ -50,7 +53,7 @@ const Input = styled.input`
     border: 1px solid grey;
 `;
 
-const Div4e = styled.div`
+const MaterialWrapper = styled.div`
     width: 100%;
     margin: 10px 10px 10px 0px;
 `;
@@ -108,9 +111,9 @@ const Text = styled.p`
 `;
 
 const Create = () => {
+    const [file, setFile] = useState(null);
     const [values, setValues] = useState({
         title: '',
-        imageUrl: '',
         color: [],
         software: '',
         category: '',
@@ -121,18 +124,6 @@ const Create = () => {
         tags: [],
     });
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const newModel = { ...values };
-        console.log(newModel);
-        try {
-            const res = await axios.post('/models/', newModel);
-            console.log(res.data);
-        } catch (error) { }
-
-    }
-
     const onChange = (e) => {
         if (e.target.name === 'color' || e.target.name === 'tags' || e.target.name === 'material') {
             let tokens = e.target.value
@@ -142,7 +133,60 @@ const Create = () => {
         } else {
             setValues({ ...values, [e.target.name]: e.target.value });
         }
-        console.log(values);
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const newFilename = new Date().getTime() + file.name;
+        const storage = getStorage(app);
+        const storageRef = ref(storage, newFilename);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        // Register three observers:
+        // 1. 'state_changed' observer, called any time the state changes
+        // 2. Error observer, called on failure
+        // 3. Completion observer, called on successful completion
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                // Observe state change events such as progress, pause, and resume
+                // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+                switch (snapshot.state) {
+                    case 'paused':
+                        console.log('Upload is paused');
+                        break;
+                    case 'running':
+                        console.log('Upload is running');
+                        break;
+                    default:
+                }
+            },
+            (error) => {
+                switch (error.code) {
+                    case 'storage/unauthorized':
+                        break;
+                    case 'storage/canceled':
+                        break;
+                    case 'storage/unknown':
+                        break;
+                    default:
+                }
+            },
+            () => {
+                // Handle successful uploads on complete
+                // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setValues({ ...values, imageUrl: downloadURL });
+                });
+            }
+        );
+
+        try {
+            const res = await axios.post('/models/', values);
+            console.log(res.data);
+        } catch (error) { }
     }
 
     return (
@@ -160,7 +204,7 @@ const Create = () => {
                         />
                         <Label>3D Model</Label>
                         <Input
-                            // type="file"
+                            type="file"
                             disabled
                             name="model"
                             placeholder="Select a zip file"
@@ -168,10 +212,10 @@ const Create = () => {
 
                         <Label>1 Render</Label>
                         <Input
-                            // type="file"
+                            type="file"
                             name="imageUrl"
                             placeholder="Select a file(no more than 5mb, format: jpeg, png)"
-                            onChange={onChange}
+                            onChange={e => setFile(e.target.files[0])}
                         />
 
                         <Label>Colors</Label>
@@ -209,9 +253,9 @@ const Create = () => {
                             onChange={onChange}
                         />
                         {/* <Label>Materials</Label>
-                        <Div4e>
+                        <MaterialWrapper>
                             <MultiSelect />
-                        </Div4e> */}
+                        </MaterialWrapper> */}
 
                         <Label>Style</Label>
                         <RadioContainer onChange={onChange}>
