@@ -5,7 +5,6 @@ import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
-import Model from "./pages/Model";
 import Catalog from "./pages/Catalog";
 import SinglePage from "./pages/SinglePage";
 import Create from "./pages/Create";
@@ -24,10 +23,10 @@ function App() {
         <Route path="/register" element={user ? <Home /> : <Register />} />
         <Route path="/login" element={user ? <Home /> : <Login />} />
         {/* PAGES FOR USER */}
-        <Route path="/model" element={user ? <Model /> : <Model />} />
-        <Route path="/create" element={user ? <Create /> : <Create />} />
-        <Route path="/profile/:id" element={user ? <Profile /> : <Profile />} />
-        <Route path="/model/:id" element={user ? <SinglePage /> : <SinglePage />} />
+        <Route path="/create" element={user ? <Create /> : <Home />} />
+        <Route path="/profile/:id" element={user ? <Profile /> : <Home />} />
+        <Route path="/details/:id" element={user ? <SinglePage /> : <SinglePage />} />
+        <Route path="/edit/:id" element={user ? <SinglePage /> : <SinglePage />} />
         <Route path="/catalog" element={user ? <Catalog /> : <Catalog />} />
         <Route path="/logout" element={user ? <Home /> : <Login />} />
       </Routes>

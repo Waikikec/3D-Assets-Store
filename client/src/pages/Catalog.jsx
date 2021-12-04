@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Products from '../components/Products';
 
+import { useState } from "react";
 import { mobile } from '../utils/responsive';
 
 const Container = styled.div``;
@@ -40,44 +41,50 @@ const Select = styled.select`
 const Option = styled.option``;
 
 const Catalog = () => {
+    const [filters, setFilters] = useState({});
+    const [sort, setSort] = useState('');
+
+    const handleFilters = (e) => {
+        const value = e.target.value;
+        setFilters({ ...filters, [e.target.name]: value });
+    }
+
     return (
         <Container>
             <Navbar />
             <Title>CATALOG</Title>
             <FilterContainer>
                 <Filter>
-                    <FilterText>Filter Products:</FilterText>
-                    <Select name="color">
-                        <Option disabled>Color</Option>
-                        <Option>white</Option>
-                        <Option>beige</Option>
-                        <Option>colorful</Option>
-                        <Option>black</Option>
-                        <Option>red</Option>
-                        <Option>blue</Option>
-                        <Option>yellow</Option>
-                        <Option>green</Option>
+                    <FilterText>Category:</FilterText>
+                    <Select name="category" onChange={handleFilters}>
+                        <Option>Furniture</Option>
+                        <Option>Technology</Option>
+                        <Option>Lighting</Option>
+                        <Option>Kitchen</Option>
+                        <Option>Bathroom</Option>
+                        <Option>Plants</Option>
+                        <Option>Decoration</Option>
                     </Select>
-                    <Select name="size">
-                        <Option disabled>Size</Option>
-                        <Option>XS</Option>
-                        <Option>S</Option>
-                        <Option>M</Option>
-                        <Option>L</Option>
-                        <Option>XL</Option>
-                        <Option>XXL</Option>
+                    <FilterText>Software:</FilterText>
+                    <Select name="software" onChange={handleFilters}>
+                        <Option>Vray</Option>
+                        <Option>Corona</Option>
+                    </Select>
+                    <FilterText>Styles:</FilterText>
+                    <Select name="style" onChange={handleFilters}>
+                        <Option value="Modern">Modern</Option>
+                        <Option value="Classic">Classic</Option>
                     </Select>
                 </Filter>
                 <Filter>
-                    <FilterText>Sort Products:</FilterText>
-                    <Select>
-                        <Option value="newest">Newest</Option>
-                        <Option value="top">Top</Option>
+                    <FilterText>Sort By Date:</FilterText>
+                    <Select onChange={e => setSort(e.target.value)}>
+                        <Option value="asc">Asc</Option>
+                        <Option value="desc">Desc</Option>
                     </Select>
                 </Filter>
             </FilterContainer>
-            {/* <Products category={category} filters={filters} sort={sort} /> */}
-            <Products />
+            <Products filters={filters} sort={sort} />
             <Footer />
         </Container>
     )

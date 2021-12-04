@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
 
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
@@ -10,6 +9,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { mobile } from '../utils/responsive';
 import { green, red } from '@mui/material/colors';
+import { publicRequest } from '../utils/requestMethods';
 
 const Container = styled.div``;
 
@@ -138,12 +138,11 @@ const SinglePage = () => {
     const id = location.pathname.split('/')[2];
 
     const [product, setProduct] = useState({});
-    // const dispatch = useDispatch();
 
     useEffect(() => {
         const getProduct = async () => {
             try {
-                const res = await axios.get('/models/' + id);
+                const res = await publicRequest.get('/models/' + id);
                 setProduct(res.data);
             } catch (error) { }
         }

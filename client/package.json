@@ -2,7 +2,6 @@
   "name": "3d-models-shop-softuni",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000/api",
   "dependencies": {
     "@emotion/react": "^11.7.0",
     "@emotion/styled": "^11.6.0",

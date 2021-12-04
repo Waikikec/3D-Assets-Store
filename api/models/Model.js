@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 
-const modelSchema = new mongoose.Schema({
+const modelSchema = new Schema({
     title: { type: String, required: true },
     imageUrl: { type: String, required: true },
     color: { type: Array, required: true },
@@ -12,9 +12,10 @@ const modelSchema = new mongoose.Schema({
     description: { type: String, required: true },
     tags: { type: Array, required: true },
     author: { type: String, required: false },
+    user: { type: Schema.Types.ObjectId, ref: 'User' }
 }, {
     timestamps: true
 });
 
-module.exports = mongoose.model('Model', modelSchema);
+module.exports = model('Model', modelSchema);
 

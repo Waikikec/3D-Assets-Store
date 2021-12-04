@@ -1,12 +1,13 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-import { mobile } from '../utils/responsive'
+import { mobile } from '../utils/responsive';
+import { logout } from '../redux/apiCalls';
 
 const Container = styled.div`
     background-color: whitesmoke;
@@ -68,16 +69,9 @@ const MenuItem = styled.span`
 const Right = styled.div`
     flex: 1;
     display:flex;
-    align-items: center;
     justify-content: flex-end;
+    align-items: center;
     ${mobile({ flex: "2", justifyContent: "center" })};
-`;
-
-const AuthItem = styled.div`
-    font-size: 14px;
-    cursor: pointer;
-    margin-left: 25px;
-    ${mobile({ fontSize: "12px", marginLeft: "10px" })};
 `;
 
 const ProfileImg = styled.img`
@@ -89,16 +83,12 @@ const ProfileImg = styled.img`
     cursor: pointer;
 `;
 
-const ProfileName = styled.span`
-    margin-left: 5px;
-    font-size: 14px;
-`;
-
 const Navbar = () => {
-    const location = useLocation();
-    const id = location.pathname.split('/')[2];
-
     const user = useSelector(state => state.user.currentUser);
+    const dispatch = useDispatch();
+    const handleLogout = () => {
+        logout(dispatch);
+    }
 
     return (
         <Container>
@@ -126,27 +116,30 @@ const Navbar = () => {
                     <MenuItem>STUDIO SETS</MenuItem>
                 </Center>
                 <Right>
-                    <Link to='/register'>
-                        <AuthItem>REGISTER</AuthItem>
-                    </Link>
-                    <Link to='/login'>
-                        <AuthItem>LOGIN</AuthItem>
-                    </Link>
-
-                    <AuthItem>LOGOUT</AuthItem>
                     {
                         user
                             ? (
-                                <Link to={`/profile/${id}`}>
-                                    <ProfileImg src={user.profilePicture} />
-                                    <ProfileName>Hello, {user.username}</ProfileName>
-                                </Link>
+                                <>
+                                    <MenuItem onClick={handleLogout}>LOGOUT</MenuItem>
+                                    <Link to={`/profile/${user._id}`}>
+                                        <ProfileImg src={user.profilePicture} />
+                                        <MenuItem>Hello, {user.username}</MenuItem>
+                                    </Link>
+                                </>
                             )
                             : (
-                                <Link to={'/login'}>
-                                    <AccountCircleIcon style={{ marginLeft: 5 }} />
-                                    <ProfileName>Hello, Guest!</ProfileName>
-                                </Link>
+                                <>
+                                    <Link to='/register'>
+                                        <MenuItem>REGISTER</MenuItem>
+                                    </Link>
+                                    <Link to='/login'>
+                                        <MenuItem>LOGIN</MenuItem>
+                                    </Link>
+                                    <Link to={'/login'}>
+                                        <AccountCircleIcon style={{ marginLeft: 5 }} />
+                                        <MenuItem>Hello, Guest!</MenuItem>
+                                    </Link>
+                                </>
                             )
                     }
                 </Right>
