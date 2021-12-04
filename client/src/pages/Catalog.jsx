@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Products from '../components/Products';
 
-import { mobile } from '../responsive';
+import { mobile } from '../utils/responsive';
 
 const Container = styled.div``;
 

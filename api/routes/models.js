@@ -4,7 +4,7 @@ const Model = require('../models/Model');
 
 const { verifyToken, isUser } = require('./guards');
 
-router.post('/', async (req, res) => {
+router.post('/', isUser, async (req, res) => {
     const model = new Model(req.body);
     try {
         const savedModel = await model.save();

@@ -10,7 +10,7 @@ import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import PhoneIcon from '@mui/icons-material/Phone';
 
-import { mobile } from '../responsive';
+import { mobile } from '../utils/responsive';
 
 const Container = styled.div`
     display:flex;

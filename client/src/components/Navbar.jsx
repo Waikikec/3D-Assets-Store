@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-import { mobile } from '../responsive'
+import { mobile } from '../utils/responsive'
 
 const Container = styled.div`
     background-color: whitesmoke;

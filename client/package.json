@@ -2,7 +2,7 @@
   "name": "3d-models-shop-softuni",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000/api/",
+  "proxy": "http://localhost:5000/api",
   "dependencies": {
     "@emotion/react": "^11.7.0",
     "@emotion/styled": "^11.6.0",
@@ -13,6 +13,7 @@
     "@testing-library/react": "11.2.7",
     "@testing-library/user-event": "12.8.3",
     "axios": "0.24.0",
+    "dotenv": "^8.2.0",
     "firebase": "^9.6.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -20,6 +21,7 @@
     "react-router-dom": "6.0.1",
     "react-scripts": "^4.0.3",
     "react-select": "^5.2.1",
+    "redux-persist": "^6.0.0",
     "styled-components": "^5.3.3",
     "web-vitals": "1.1.2"
   },

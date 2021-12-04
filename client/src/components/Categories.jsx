@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Category from './Category';
 
 import { categories } from '../utils/data';
-import { mobile } from '../responsive'
+import { mobile } from '../utils/responsive'
 
 const Container = styled.div`
     display: flex;

@@ -8,7 +8,7 @@ import Navbar from '../components/Navbar';
 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { mobile } from '../responsive';
+import { mobile } from '../utils/responsive';
 import { green, red } from '@mui/material/colors';
 
 const Container = styled.div``;

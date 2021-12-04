@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import RadioBtn from '../components/RadioBtn';
-import MultiSelect from '../components/MultiSelect';
+// import MultiSelect from '../components/MultiSelect';
+import { userRequest } from '../utils/requestMethods';
 
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import app from '../utils/firebase';
@@ -53,10 +53,11 @@ const Input = styled.input`
     border: 1px solid grey;
 `;
 
-const MaterialWrapper = styled.div`
-    width: 100%;
-    margin: 10px 10px 10px 0px;
-`;
+// const MaterialWrapper = styled.div`
+//     display: flex;
+//     width: 100%;
+//     margin: 10px 10px 10px 0px;
+// `;
 
 const Button = styled.button`
     width: 40%;
@@ -112,7 +113,7 @@ const Text = styled.p`
 
 const Create = () => {
     const [file, setFile] = useState(null);
-    const [values, setValues] = useState({
+    const [model, setModel] = useState({
         title: '',
         color: [],
         software: '',
@@ -129,62 +130,42 @@ const Create = () => {
             let tokens = e.target.value
                 .split(',')
                 .map(i => i.trim());
-            setValues({ ...values, [e.target.name]: tokens });
+            setModel({ ...model, [e.target.name]: tokens });
         } else {
-            setValues({ ...values, [e.target.name]: e.target.value });
+            setModel({ ...model, [e.target.name]: e.target.value });
         }
+    };
+
+    const upload = () => {
+        const fileName = new Date().getTime + file.name;
+        const metadata = {
+            contentType: 'image/jpeg'
+        };
+        const storage = getStorage(app);
+        const storageRef = ref(storage, fileName);
+        const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log("Upload is " + progress + "% done");
+            },
+            (error) => {
+                console.log(error);
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setModel({ ...model, imageUrl: downloadURL });
+                })
+            }
+        )
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const newFilename = new Date().getTime() + file.name;
-        const storage = getStorage(app);
-        const storageRef = ref(storage, newFilename);
-        const uploadTask = uploadBytesResumable(storageRef, file);
-
-        // Register three observers:
-        // 1. 'state_changed' observer, called any time the state changes
-        // 2. Error observer, called on failure
-        // 3. Completion observer, called on successful completion
-        uploadTask.on('state_changed',
-            (snapshot) => {
-                // Observe state change events such as progress, pause, and resume
-                // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                console.log('Upload is ' + progress + '% done');
-                switch (snapshot.state) {
-                    case 'paused':
-                        console.log('Upload is paused');
-                        break;
-                    case 'running':
-                        console.log('Upload is running');
-                        break;
-                    default:
-                }
-            },
-            (error) => {
-                switch (error.code) {
-                    case 'storage/unauthorized':
-                        break;
-                    case 'storage/canceled':
-                        break;
-                    case 'storage/unknown':
-                        break;
-                    default:
-                }
-            },
-            () => {
-                // Handle successful uploads on complete
-                // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    setValues({ ...values, imageUrl: downloadURL });
-                });
-            }
-        );
-
+        upload();
         try {
-            const res = await axios.post('/models/', values);
+            const res = await userRequest.post(`/models`, model);
             console.log(res.data);
         } catch (error) { }
     }
@@ -194,7 +175,7 @@ const Create = () => {
             <Navbar />
             <Wrapper>
                 <UpdateInfo>
-                    <Form onSubmit={handleSubmit}>
+                    <Form>
                         <Title>Model Upload</Title>
                         <Label>Title</Label>
                         <Input
@@ -283,7 +264,7 @@ const Create = () => {
                             placeholder="Enter value(comma separated)"
                             onChange={onChange}
                         />
-                        <Button onClick={handleSubmit}>UPLOAD</Button>
+                        <Button onClick={handleSubmit}>CREATE</Button>
                     </Form>
                     <Requirements>
                         <Label>REQUIREMENTS</Label>

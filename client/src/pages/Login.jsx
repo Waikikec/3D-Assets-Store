@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { login } from '../redux/apiCalls';
-import { mobile } from '../responsive';
+import { mobile } from '../utils/responsive';
 
 const Container = styled.div`
     width: 100vw;

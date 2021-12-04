@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 
 import Product from './Product';
+import { publicRequest } from '../utils/requestMethods';
 
 const Container = styled.div`
     display: flex;
@@ -17,12 +17,12 @@ const Products = () => {
     useEffect(() => {
         const getProducts = async () => {
             try {
-                const res = await axios.get('/models');
+                const res = await publicRequest.get('models');
                 setProducts(res.data);
-            } catch (error) {}
+            } catch (error) { }
         }
         getProducts();
-    },[]);
+    }, []);
 
     return (
         <Container>
