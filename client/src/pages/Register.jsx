@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { mobile } from '../utils/responsive';
-import FormInput from '../components/FormInput';
+import { publicRequest } from '../utils/requestMethods';
+import FormInput from '../components/FormInput/FormInput';
 
 const Container = styled.div`
-    width: 100vw;
-    height: 100vh;
-    background-color: whitesmoke;
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 100vh;
+    background-color: whitesmoke;
 `;
 
 const Wrapper = styled.div`
-    width: 20%;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
     background-color: white;
-    ${mobile({ width: "75%" })};
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    width: 280px;
+    padding: 20px;
 `;
 
 const Title = styled.h1`
@@ -28,27 +28,10 @@ const Title = styled.h1`
 `;
 
 const Form = styled.form`
-    display: flex;
-    flex-direction: column;
-    font-size: 12px;
-    color: grey;
+    width: 280px;
 `;
 
-// const Label = styled.label`
-//     font-size: 12px;
-//     color: grey;
-//     padding: 10px 0px;
-// `;
-
-// const Input = styled.input`
-//     flex: 1;
-//     min-width: 40%;
-//     padding: 12px;
-//     border-radius: 5px;
-//     border: 1px solid grey;
-// `;
-
-const Agreement = styled.span`
+const Agreement = styled.p`
     font-size: 12px;
     margin: 20px 0px;
 `;
@@ -63,11 +46,10 @@ const Button = styled.button`
 `;
 
 const Register = () => {
-    const [values, setValues] = useState({
+    const [userInfo, setUserInfo] = useState({
         username: '',
         email: '',
         password: '',
-        confirmPassword: '',
     });
 
     const inputs = [
@@ -107,19 +89,23 @@ const Register = () => {
             placeholder: 'Confirm Your Password',
             errorMsg: 'Passwodrs don\'t match!',
             label: 'ConfirmPassword',
-            pattern: values.password,
+            pattern: userInfo.password,
             required: true,
         },
     ]
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        try {
+            const res = await publicRequest.post('/auth/register', userInfo);
+            console.log(res.data);
+        } catch (error) { }
     }
 
     const onChange = (e) => {
-        setValues({ ...values, [e.target.name]: e.target.value })
+        setUserInfo({ ...userInfo, [e.target.name]: e.target.value })
     }
-    console.log(values);
 
     return (
         <Container>
@@ -130,42 +116,14 @@ const Register = () => {
                         <FormInput
                             key={input.id}
                             {...input}
-                            value={values[input.name]}
+                            value={userInfo[input.name]}
                             onChange={onChange}
                         />
                     ))}
-                    {/* <Label>Username:</Label>
-                    <Input
-                        name="username"
-                        placeholder="Enter Username"
-                        onChange={onChange}
-                    />
-                    <Label>Email:</Label>
-                    <Input
-                        name="email"
-                        placeholder="Enter Email"
-                        onChange={onChange}
-                    />
-                    <Label>Password:</Label>
-                    <Input
-                        name="password"
-                        placeholder="Enter Password"
-                        type="password"
-                        onChange={onChange}
-                    />
-                    <Label>Confirm Password:</Label>
-                    <Input
-                        name="confirmPassword"
-                        placeholder="Enter Confirm Password"
-                        type="password"
-                        onChange={onChange}
-                    /> */}
                     <Agreement>
                         By creating an account, I consest to the processing of my personal data in accordance with the <b>PRIVACY POLICY</b>
                     </Agreement>
-                    <Link to="/login">
-                        <Button>SIGN UP</Button>
-                    </Link>
+                    <Button>SIGN UP</Button>
                 </Form>
             </Wrapper>
         </Container>

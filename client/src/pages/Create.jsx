@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
-import RadioBtn from '../components/RadioBtn';
+import RadioBtn from '../components/custom/RadioBtn';
 // import MultiSelect from '../components/MultiSelect';
 import { userRequest } from '../utils/requestMethods';
 
