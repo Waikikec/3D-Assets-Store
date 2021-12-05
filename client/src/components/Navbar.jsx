@@ -122,7 +122,11 @@ const Navbar = () => {
                                 <>
                                     <MenuItem onClick={handleLogout}>LOGOUT</MenuItem>
                                     <Link to={`/profile/${user._id}`}>
-                                        <ProfileImg src={user.profilePicture} />
+                                        {
+                                            user.profilePicture
+                                            ? (<ProfileImg src={user.profilePicture} />)
+                                            : <AccountCircleIcon style={{ marginLeft: 5 }} />
+                                        } 
                                         <MenuItem>Hello, {user.username}</MenuItem>
                                     </Link>
                                 </>

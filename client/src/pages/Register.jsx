@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { publicRequest } from '../utils/requestMethods';
 import FormInput from '../components/FormInput/FormInput';
+import { register } from '../redux/apiCalls';
 
 const Container = styled.div`
     display: flex;
@@ -17,7 +19,7 @@ const Wrapper = styled.div`
     flex-direction: column;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-    width: 280px;
+    width: 350px;
     padding: 20px;
 `;
 
@@ -28,7 +30,7 @@ const Title = styled.h1`
 `;
 
 const Form = styled.form`
-    width: 280px;
+    width: 350px;
 `;
 
 const Agreement = styled.p`
@@ -43,6 +45,18 @@ const Button = styled.button`
     background-color: yellowgreen;
     cursor: pointer;
     color: white;
+`;
+
+const Error = styled.div`
+    margin: 5px;
+    color: red;
+`;
+
+const Text = styled.div`
+    margin: 10px 0px;
+    font-size: 12px;
+    text-decoration: underline;
+    cursor: pointer;
 `;
 
 const Register = () => {
@@ -92,15 +106,14 @@ const Register = () => {
             pattern: userInfo.password,
             required: true,
         },
-    ]
+    ];
 
-    const handleSubmit = async (e) => {
+    const dispatch = useDispatch();
+    const { isFetching, error } = useSelector(state => state.user);
+
+    const handleRegister = async (e) => {
         e.preventDefault();
-
-        try {
-            const res = await publicRequest.post('/auth/register', userInfo);
-            console.log(res.data);
-        } catch (error) { }
+        register(dispatch, userInfo);
     }
 
     const onChange = (e) => {
@@ -110,8 +123,8 @@ const Register = () => {
     return (
         <Container>
             <Wrapper>
-                <Title>CREATE AN ACCOUNT</Title>
-                <Form onSubmit={handleSubmit}>
+                <Title>REGISTER</Title>
+                <Form>
                     {inputs.map((input) => (
                         <FormInput
                             key={input.id}
@@ -123,7 +136,11 @@ const Register = () => {
                     <Agreement>
                         By creating an account, I consest to the processing of my personal data in accordance with the <b>PRIVACY POLICY</b>
                     </Agreement>
-                    <Button>SIGN UP</Button>
+                    <Button onClick={handleRegister} disabled={isFetching}>SIGN UP</Button>
+                    {!error && <Error>Somethng went wrong!</Error>}
+                    <Link to="/login">
+                        <Text>ALREADY HAVE AN ACCOUNT?</Text>
+                    </Link>
                 </Form>
             </Wrapper>
         </Container>

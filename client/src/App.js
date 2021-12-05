@@ -12,9 +12,8 @@ import Create from "./pages/Create";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
-  const user = useSelector(state => state.user.currentUser);
-  console.log(user);
-
+  const user = useSelector((state) => state.user.currentUser);
+  
   return (
     <BrowserRouter>
       <Routes>

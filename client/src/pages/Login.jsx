@@ -12,12 +12,14 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: whitesmoke;
 `;
 
 const Wrapper = styled.div`
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     width: 20%;
     padding: 20px;
-    background-color: whitesmoke;
     ${mobile({ width: "75%" })};
 `;
 
@@ -61,14 +63,15 @@ const Label = styled.label`
     padding: 10px 0px;
 `;
 
-const Text = styled.a`
+const Text = styled.div`
     margin: 10px 0px;
     font-size: 12px;
     text-decoration: underline;
     cursor: pointer;
 `;
 
-const Error = styled.span`
+const Error = styled.div`
+    margin: 5px;
     color: red;
 `;
 
@@ -77,7 +80,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
 
     const dispatch = useDispatch();
-    const { isFetching, error } = useSelector(state => state.user);
+    const { isFetching, error } = useSelector((state) => state.user);
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -104,12 +107,12 @@ const Login = () => {
                     <Button onClick={handleLogin} disabled={isFetching}>
                         SIGN IN
                     </Button>
-                    {error && <Error>Somethng went wrong!</Error>}
+                    {!error && <Error>Somethng went wrong!</Error>}
+                </Form>
                     <Text>DO NOT YOU REMEMBER THE PASSWORD?</Text>
                     <Link to="/register">
                         <Text>CREATE A NEW ACCOUNT</Text>
                     </Link>
-                </Form>
             </Wrapper>
         </Container>
     )
