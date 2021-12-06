@@ -144,8 +144,9 @@ const SinglePage = () => {
     const id = location.pathname.split('/')[2];
 
     const user = useSelector(state => state.user.currentUser);
-    const [error, setError] = useState({});
+    const [error, setError] = useState('');
     const [product, setProduct] = useState({});
+    const isAuthor = user.username === product.author;
 
     useEffect(() => {
         const getProduct = async () => {
@@ -232,7 +233,7 @@ const SinglePage = () => {
                         ))}
                     </ModelDesc>
                     {
-                        user
+                        isAuthor
                             ? (
                                 <Button>
                                     <Link to={`/edit/${product._id}`}>
@@ -244,9 +245,7 @@ const SinglePage = () => {
                                     />
                                 </Button>
                             )
-                            : (
-                                <Button aria-hidden="false"></Button>
-                            )
+                            : (<></>)
                     }
                     {error && <Error>Somethng went wrong!</Error>}
                 </InfoContainer>
