@@ -12,9 +12,9 @@ const modelSchema = new Schema({
     description: { type: String, required: true },
     tags: { type: Array, required: true },
     author: { type: String, required: true },
-}, {
-    timestamps: true
-});
+},
+    { timestamps: true }
+);
 
 module.exports = model('Model', modelSchema);
 

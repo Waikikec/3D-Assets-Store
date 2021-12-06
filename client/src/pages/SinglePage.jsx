@@ -113,10 +113,12 @@ const Hr = styled.hr`
 
 //Description Container
 const ModelDesc = styled.div`
-    width: 50%;
+    font-size: 16px;
+    font-weight: 300;
+    width: 80%;
     display: flex;
     align-items: center;
-    justify-content: flex;
+    flex-wrap: wrap;
     ${mobile({ width: "100%" })};
 `;
 
@@ -126,6 +128,7 @@ const ModelTitleSection = styled.div`
     padding: 20px 0px;
 `;
 
+//Edit & Delete Buttons Container
 const Button = styled.div`
     display: flex;
     justify-content: flex-end;

@@ -65,8 +65,8 @@ const Catalog = () => {
                         <Option>Plants</Option>
                         <Option>Decoration</Option>
                     </Select>
-                    <FilterText>Software:</FilterText>
-                    <Select name="software" onChange={handleFilters}>
+                    <FilterText>Render:</FilterText>
+                    <Select name="render" onChange={handleFilters}>
                         <Option>Vray</Option>
                         <Option>Corona</Option>
                         <Option>Vray/Corona</Option>

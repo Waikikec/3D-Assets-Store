@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router';
 import styled from 'styled-components';
 
 import Product from './Product';
@@ -12,6 +13,8 @@ const Container = styled.div`
 `;
 
 const Products = ({ filters, sort }) => {
+    const location = useLocation();
+    const category = location.pathname.split('/')[1];
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
 
@@ -25,40 +28,39 @@ const Products = ({ filters, sort }) => {
         getProducts();
     }, []);
 
-    // useEffect(() => {
-    //     setFilteredProducts(
-    //         products.filter((item) =>
-    //             Object.entries(filters).every(([key, value]) =>
-    //                 item[key].includes(value)
-    //             )
-    //         )
-    //     )
-    // }, [products, filters]);
+    useEffect(() => {
+        category &&
+            setFilteredProducts(
+                products.filter((item) =>
+                    Object.entries(filters).every(([key, value]) =>
+                        item[key].includes(value)
+                    )
+                )
+            )
+    }, [products, category, filters]);
 
     useEffect(() => {
         if (sort === 'asc') {
-            setFilteredProducts((prev) => {
-                [...prev].sort((a, b) => a.createdAt - b.createdAt);
-            });
+            setFilteredProducts((prev) =>
+                [...prev].sort((a, b) =>
+                    new Date(a.createdAt) - new Date(b.createdAt))
+            );
         } else if (sort === 'desc') {
-            setFilteredProducts((prev) => {
-                [...prev].sort((a, b) => b.createdAt - a.createdAt)
-            });
-        } else {
-            setFilteredProducts((prev) => {
-                [...prev].sort((a, b) => a.createdAt - b.createdAt);
-            });
+            setFilteredProducts((prev) =>
+                [...prev].sort((a, b) =>
+                    new Date(b.createdAt) - new Date(a.createdAt))
+            );
         }
     }, [sort]);
 
-    // console.log(products);
-    // console.log(filteredProducts);
-
     return (
         <Container>
-            {products.map(item => (
-                <Product item={item} key={item._id} />
-            ))}
+            {category
+                ? filteredProducts.map(item => <Product item={item} key={item.id} />)
+                : products
+                    .slice(0, 14)
+                    .map(item => <Product item={item} key={item._id} />)
+            }
         </Container>
     )
 }
