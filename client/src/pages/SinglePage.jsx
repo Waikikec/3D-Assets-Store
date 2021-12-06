@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import Footer from '../components/Footer';
@@ -9,7 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { mobile } from '../utils/responsive';
 import { green, red } from '@mui/material/colors';
-import { publicRequest } from '../utils/requestMethods';
+import { publicRequest, userRequest } from '../utils/requestMethods';
 
 const Container = styled.div``;
 
@@ -126,10 +127,15 @@ const ModelTitleSection = styled.div`
 `;
 
 const Button = styled.div`
-    font-size: 40px;
     display: flex;
     justify-content: flex-end;
-    padding: 20px 0px;
+    padding: 10px;
+    cursor: pointer;
+`;
+
+const Error = styled.div`
+    margin: 5px;
+    color: red;
 `;
 
 const SinglePage = () => {
@@ -137,6 +143,8 @@ const SinglePage = () => {
     const location = useLocation();
     const id = location.pathname.split('/')[2];
 
+    const user = useSelector(state => state.user.currentUser);
+    const [error, setError] = useState({});
     const [product, setProduct] = useState({});
 
     useEffect(() => {
@@ -148,6 +156,15 @@ const SinglePage = () => {
         }
         getProduct();
     }, [id]);
+
+    const handleDelete = async () => {
+        try {
+            await userRequest.delete('/models/' + id);
+            window.location.replace('/');
+        } catch (error) {
+            setError(error.message);
+        }
+    }
 
     return (
         <Container>
@@ -214,14 +231,24 @@ const SinglePage = () => {
                             <ModelSpan>{t}</ModelSpan>
                         ))}
                     </ModelDesc>
-                    <Button>
-                        <Link to={`/edit/${product._id}`}>
-                            <EditIcon sx={{ color: green[500], fontSize: 30 }} />
-                        </Link>
-                        <Link to={`/models/${product._id}`}>
-                            <DeleteIcon sx={{ color: red[500], fontSize: 30 }} />
-                        </Link>
-                    </Button>
+                    {
+                        user
+                            ? (
+                                <Button>
+                                    <Link to={`/edit/${product._id}`}>
+                                        <EditIcon sx={{ color: green[500], fontSize: 30, paddingLeft: 3 }} />
+                                    </Link>
+                                    <DeleteIcon
+                                        sx={{ color: red[500], fontSize: 30, paddingLeft: 3 }}
+                                        onClick={handleDelete}
+                                    />
+                                </Button>
+                            )
+                            : (
+                                <Button aria-hidden="false"></Button>
+                            )
+                    }
+                    {error && <Error>Somethng went wrong!</Error>}
                 </InfoContainer>
             </Wrapper>
             <Footer />

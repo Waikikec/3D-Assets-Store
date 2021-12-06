@@ -4,7 +4,7 @@ const Model = require('../models/Model');
 
 const { verifyToken, isUser } = require('./guards');
 
-router.post('/', isUser, async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
     const model = new Model(req.body);
     try {
         const savedModel = await model.save();
@@ -26,7 +26,7 @@ router.put('/:id', isUser, async (req, res) => {
     }
 })
 
-router.delete('/:id', isUser, async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         await Model.findByIdAndDelete(req.params.id);
         res.status(200).json('Model has been deleted!');

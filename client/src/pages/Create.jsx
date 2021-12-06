@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import RadioBtn from '../components/custom/RadioBtn';
-// import MultiSelect from '../components/MultiSelect';
 import { userRequest } from '../utils/requestMethods';
+// import MultiSelect from '../components/MultiSelect';
 
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import app from '../utils/firebase';
@@ -53,18 +54,26 @@ const Input = styled.input`
     border: 1px solid grey;
 `;
 
-// const MaterialWrapper = styled.div`
-//     display: flex;
-//     width: 100%;
-//     margin: 10px 10px 10px 0px;
-// `;
+const UploadImageWrapper = styled.div`
+    display: flex;
+    align-items: center;
+`;
 
-const Button = styled.button`
+const CreateButton = styled.button`
     width: 40%;
     border: none;
     margin: 10px 0px;
     padding: 20px 20px;
     background-color: yellowgreen;
+    cursor: pointer;
+    color: white;
+`;
+
+const UploadButton = styled.button`
+    padding: 10px;
+    background-color: yellowgreen;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
     color: white;
 `;
@@ -112,6 +121,7 @@ const Text = styled.p`
 `;
 
 const Create = () => {
+    const user = useSelector(state => state.user.currentUser);
     const [file, setFile] = useState(null);
     const [model, setModel] = useState({
         title: '',
@@ -123,6 +133,7 @@ const Create = () => {
         render: '',
         description: '',
         tags: [],
+        author: user.username,
     });
 
     const onChange = (e) => {
@@ -136,8 +147,8 @@ const Create = () => {
         }
     };
 
-    const upload = () => {
-        const fileName = new Date().getTime + file.name;
+    async function upload() {
+        const fileName = new Date().getTime() + file.name;
         const metadata = {
             contentType: 'image/jpeg'
         };
@@ -156,17 +167,24 @@ const Create = () => {
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                     setModel({ ...model, imageUrl: downloadURL });
-                })
+                });
             }
         )
     }
 
-    const handleSubmit = async (e) => {
+    const handleUpload = async (e) => {
         e.preventDefault();
-        upload();
         try {
-            const res = await userRequest.post(`/models`, model);
-            console.log(res.data);
+            await upload();
+        } catch (error) { }
+    }
+
+    const handleCreate = async (e) => {
+        e.preventDefault();
+        try {
+            console.log(model);
+            const res = await userRequest.post('/models', model);
+            window.location.replace('/details/' + res.data._id);
         } catch (error) { }
     }
 
@@ -192,13 +210,15 @@ const Create = () => {
                         />
 
                         <Label>1 Render</Label>
-                        <Input
-                            type="file"
-                            name="imageUrl"
-                            placeholder="Select a file(no more than 5mb, format: jpeg, png)"
-                            onChange={e => setFile(e.target.files[0])}
-                        />
-
+                        <UploadImageWrapper>
+                            <Input
+                                type="file"
+                                name="imageUrl"
+                                placeholder="Select a file(no more than 5mb, format: jpeg, png)"
+                                onChange={e => setFile(e.target.files[0])}
+                            />
+                            <UploadButton onClick={handleUpload}>Upload</UploadButton>
+                        </UploadImageWrapper>
                         <Label>Colors</Label>
                         <Input
                             name="color"
@@ -263,7 +283,7 @@ const Create = () => {
                             placeholder="Enter value(comma separated)"
                             onChange={onChange}
                         />
-                        <Button onClick={handleSubmit}>CREATE</Button>
+                        <CreateButton onClick={handleCreate}>CREATE</CreateButton>
                     </Form>
                     <Requirements>
                         <Label>REQUIREMENTS</Label>

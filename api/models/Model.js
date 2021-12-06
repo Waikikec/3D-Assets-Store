@@ -11,8 +11,7 @@ const modelSchema = new Schema({
     render: { type: String, required: true },
     description: { type: String, required: true },
     tags: { type: Array, required: true },
-    author: { type: String, required: false },
-    user: { type: Schema.Types.ObjectId, ref: 'User' }
+    author: { type: String, required: true },
 }, {
     timestamps: true
 });

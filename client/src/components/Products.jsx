@@ -51,8 +51,8 @@ const Products = ({ filters, sort }) => {
         }
     }, [sort]);
 
-    console.log(products);
-    console.log(filteredProducts);
+    // console.log(products);
+    // console.log(filteredProducts);
 
     return (
         <Container>
