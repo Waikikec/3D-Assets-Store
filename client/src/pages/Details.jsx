@@ -24,6 +24,7 @@ const Wrapper = styled.div`
 const ImgContainer = styled.div`
     flex: 1;
 `;
+
 const Image = styled.img`
     width: 100%;
     height: 75vh;
@@ -141,7 +142,7 @@ const Error = styled.div`
     color: red;
 `;
 
-const SinglePage = () => {
+const Details = () => {
     const DATE_OPTIONS = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
     const location = useLocation();
     const id = location.pathname.split('/')[2];
@@ -258,4 +259,4 @@ const SinglePage = () => {
     )
 }
 
-export default SinglePage
+export default Details
