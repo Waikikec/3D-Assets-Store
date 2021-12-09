@@ -32,7 +32,6 @@ export const categories = [
   {
     id: 6,
     img: "https://b2.3ddd.ru/media/cache/tuk_model_custom_filter_en/model_images/0000/0000/3824/3824923.61a8f3e4ea9ef.jpeg",
-    // img: "https://b2.3ddd.ru/media/cache/tuk_model_custom_filter_en/model_images/0000/0000/3824/3824924.61a8f3e4eb2a8.jpeg",
     title: "Plants",
     category: "plants"
   },

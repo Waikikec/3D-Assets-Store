@@ -10,11 +10,6 @@ import { mobile } from '../utils/responsive';
 
 const Container = styled.div``;
 
-const Title = styled.h1`
-    text-align: center;
-    margin:20px;
-`;
-
 const FilterContainer = styled.div`
     display: flex;
     justify-content: space-between;
@@ -52,7 +47,6 @@ const Catalog = () => {
     return (
         <Container>
             <Navbar />
-            <Title>CATALOG</Title>
             <FilterContainer>
                 <Filter>
                     <FilterText>Category:</FilterText>

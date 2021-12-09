@@ -1,20 +1,11 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { userRequest } from '../utils/requestMethods';
-
-// export const updateUser = createAsyncThunk('users/update', async (id, user) => {
-//     console.log(id);
-//     console.log(user);
-//     const res = await userRequest.put('/users/' + id, user);
-//     return res.data;
-// });
-
+import { createSlice } from '@reduxjs/toolkit';
 
 const userSlice = createSlice({
     name: 'user',
     initialState: {
         currentUser: null,
-        pending: false,
-        error: false,
+        pending: null,
+        error: null,
     },
     reducers: {
         //Login

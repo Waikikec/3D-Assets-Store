@@ -18,8 +18,6 @@ const Products = ({ filters, sort }) => {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
 
-    console.log(category);
-
     useEffect(() => {
         const getProducts = async () => {
             try {

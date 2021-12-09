@@ -3,11 +3,8 @@ import axios from 'axios';
 const BASE_URL = "http://localhost:5000/api/";
 
 const user = JSON.parse(localStorage.getItem("persist:root"))?.currentUser;
-console.log(user);
 const currentUser = user && JSON.parse(user);
-console.log(currentUser);
 const TOKEN = currentUser?.accessToken;
-console.log(TOKEN);
 
 export const publicRequest = axios.create({
     baseURL: BASE_URL,

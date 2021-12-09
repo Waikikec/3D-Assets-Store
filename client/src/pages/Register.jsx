@@ -109,7 +109,7 @@ const Register = () => {
     ];
 
     const dispatch = useDispatch();
-    const { isFetching, error } = useSelector(state => state.user);
+    const { pending, error } = useSelector(state => state.user);
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -136,8 +136,8 @@ const Register = () => {
                     <Agreement>
                         By creating an account, I consest to the processing of my personal data in accordance with the <b>PRIVACY POLICY</b>
                     </Agreement>
-                    <Button onClick={handleRegister} disabled={isFetching}>SIGN UP</Button>
-                    {!error && <Error>Somethng went wrong!</Error>}
+                    <Button onClick={handleRegister} disabled={pending}>SIGN UP</Button>
+                    {error && <Error>Somethng went wrong!</Error>}
                     <Link to="/login">
                         <Text>ALREADY HAVE AN ACCOUNT?</Text>
                     </Link>

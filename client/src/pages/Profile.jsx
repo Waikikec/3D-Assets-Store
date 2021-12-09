@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import styled from 'styled-components';
@@ -10,10 +10,11 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { grey } from '@mui/material/colors';
 
-import { userRequest } from '../utils/requestMethods';
-import { useDispatch } from 'react-redux';
-// import { updateUser } from '../redux/userRedux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../redux/apiCalls';
+
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import app from '../utils/firebase';
 
 const Container = styled.div``;
 
@@ -28,6 +29,7 @@ const UpdateInfo = styled.div`
     display: flex;
     width: 50%;
     align-items: center;
+    margin: 60px;
     padding: 30px;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 `;
@@ -48,7 +50,7 @@ const Form = styled.form`
 
 const Label = styled.label`
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 900;
     padding: 5px;
     margin-left: 5px;
 `;
@@ -83,13 +85,14 @@ const Image = styled.img`
     height: 120px;
     width: 120px;
     border-radius: 50%;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     object-fit: cover;
 `;
 const ButtonContainer = styled.div`
     display: flex;
     width: 75%;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: space-evenly;
 `;
 
 const Button = styled.button`
@@ -103,48 +106,83 @@ const Button = styled.button`
     color: white;
 `;
 
+const Error = styled.span`
+    font-size: 14px;
+    font-weight: 300;
+    margin: 5px;
+    color: red;
+`;
+
+const Success = styled.span`
+    font-size: 14px;
+    font-weight: 300;
+    margin: 5px;
+    color: green;
+`;
+
 const Profile = () => {
     const [updateMode, setUpdateMode] = useState(false);
     const [userInfo, setUserInfo] = useState({});
-    const id = useLocation().pathname.split('/')[2];
+    const [file, setFile] = useState(null);
+    const [status, setStatus] = useState(null);
 
+    const id = useLocation().pathname.split('/')[2];
+    const { currentUser, pending, error } = useSelector(state => state.user);
     const dispatch = useDispatch();
 
+    function upload() {
+        console.log(file.name);
+        const fileName = new Date().getTime() + file.name;
+        const metadata = {
+            contentType: 'image/jpeg'
+        };
+        const storage = getStorage(app);
+        const storageRef = ref(storage, fileName);
+        const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log("Upload is " + progress + "% done");
+            },
+            (error) => {
+                console.log(error);
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setUserInfo({ ...userInfo, profilePicture: downloadURL });
+                });
+            }
+        )
+    }
 
     const onChange = (e) => {
         e.preventDefault();
         setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
     }
 
-    const handleEdit = (e) => {
+    const handleUpload = async (e) => {
         e.preventDefault();
+        try {
+            await upload();
+            setStatus(true);
+        } catch (error) { }
+    }
+
+    const handleEdit = (e) => {
         setUpdateMode(true);
     }
 
     const handleUpdate = (e) => {
         e.preventDefault();
-
-        // updateUser(id, userInfo);
-        updateUser(dispatch, id, userInfo);
-        setUpdateMode(false);
-        // const updateUserInfo = async () => {
-        //     try {
-        //         await userRequest.put('/users/' + id, userInfo);
-        //         setUpdateMode(false);
-        //     } catch (error) { }
-        // }
-        // updateUserInfo();
-    }
-
-    useEffect(() => {
-        const getUserInfo = async () => {
-            try {
-                const res = await userRequest.get('/users/' + id);
-                setUserInfo(res.data);
-            } catch (error) { }
+        if (userInfo.password === '') {
+            return;
         }
-        getUserInfo();
-    }, [id]);
+        let updatedUser = { ...currentUser, ...userInfo };
+        console.log(updatedUser);
+        updateUser(dispatch, id, updatedUser);
+        setUpdateMode(false);
+    }
 
     return (
         <Container>
@@ -159,7 +197,7 @@ const Profile = () => {
                                 name="username"
                                 placeholder="Enter Username"
                                 onChange={onChange}
-                            />) : (<Input value={userInfo.username} disabled />)
+                            />) : (<Input value={currentUser.username} disabled />)
                         }
                         <Label>Your email</Label>
                         {updateMode ?
@@ -168,7 +206,7 @@ const Profile = () => {
                                 type="email"
                                 placeholder="Enter Email"
                                 onChange={onChange}
-                            />) : (<Input value={userInfo.email} disabled />)}
+                            />) : (<Input value={currentUser.email} disabled />)}
                         <Label>Your password</Label>
                         {updateMode ?
                             (<Input
@@ -178,49 +216,60 @@ const Profile = () => {
                                 onChange={onChange}
                                 required
                             />) : (<Input value={''} disabled />)}
-                        <Label>Age</Label>
-                        <Input
-                            value={userInfo.age || ''}
-                            disabled
-                        />
                         <Label>Your website</Label>
                         {updateMode ?
                             (<Input
                                 name="website"
                                 onChange={onChange}
-                            />) : (<Input value={userInfo.website || ''} disabled />)}
+                            />) : (<Input value={currentUser.website || ''} disabled />)}
                         <Label>Behance</Label>
                         {updateMode ?
                             (<Input
                                 name="behance"
                                 onChange={onChange}
-                            />) : (<Input value={userInfo.behance || ''} disabled />)}
+                            />) : (<Input value={currentUser.behance || ''} disabled />)}
                         <Label>Instagram</Label>
                         {updateMode ?
                             (<Input
                                 name="instagram"
                                 onChange={onChange}
-                            />) : (<Input value={userInfo.instagram || ''} disabled />)}
+                            />) : (<Input value={currentUser.instagram || ''} disabled />)}
                     </Form>
                     <ImageContainer>
                         {
-                            userInfo.profilePicture
-                                ? (<Image src={userInfo.profilePicture} />)
+                            currentUser.profilePicture
+                                ? (<Image src={currentUser.profilePicture} />)
                                 : (<AccountCircleIcon sx={{ color: grey[500], fontSize: 100 }} />)
                         }
-                        <Label id="icon-button-file">
-                            <Input accept="image/*" id="icon-button-file" type="file" style={{ display: 'none' }} />
-                            <IconButton color="primary" aria-label="upload picture" component="span">
-                                <PhotoCamera />
-                            </IconButton>
-                        </Label>
+                        {updateMode ?
+                            (
+                                <ButtonContainer>
+                                    <Label id="icon-button-file">
+                                        <Input
+                                            type="file"
+                                            name="profilePicture"
+                                            accept="image/*"
+                                            id="icon-button-file"
+                                            style={{ display: 'none' }}
+                                            onChange={e => setFile(e.target.files[0])}
+                                        />
+                                        <IconButton color="primary" aria-label="upload picture" component="span">
+                                            <PhotoCamera />
+                                        </IconButton>
+                                    </Label>
+                                    <Button onClick={handleUpload}>Upload</Button>
+                                    {status && <Success>Image has beed uploaded!</Success>}
+                                </ButtonContainer>
+                            )
+                            : (<></>)
+                        }
                         <Label>Birthday</Label>
                         {updateMode ?
                             (<Input
                                 name="birthday"
                                 type="date"
                                 onChange={onChange}
-                            />) : (<Input type="date" value={userInfo.birthday?.toString('yyyy-MM-dd')} disabled />)
+                            />) : (<Input type="date" value={currentUser.birthday?.toString('yyyy-MM-dd')} disabled />)
                         }
                         <Label>About you</Label>
                         {updateMode ?
@@ -228,7 +277,7 @@ const Profile = () => {
                                 name="description"
                                 onChange={onChange}
                             />)
-                            : (<Textarea value={userInfo.description} disabled />)
+                            : (<Textarea value={currentUser.description} disabled />)
                         }
                         <ButtonContainer>
                             <Button onClick={handleEdit}>EDIT</Button>
@@ -237,6 +286,8 @@ const Profile = () => {
                                 : <Button primary>UPDATE</Button>
                             }
                         </ButtonContainer>
+                        {error && <Error>Something went wrong!</Error>}
+                        {pending && (<Success>Account has been updated!</Success>)}
                     </ImageContainer>
                 </UpdateInfo>
             </Wrapper>

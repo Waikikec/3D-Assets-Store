@@ -70,10 +70,10 @@ const CreateButton = styled.button`
 `;
 
 const UploadButton = styled.button`
-    padding: 10px;
+    padding: 13px;
     background-color: yellowgreen;
-    border: none;
     border-radius: 5px;
+    border: none;
     cursor: pointer;
     color: white;
 `;
@@ -120,8 +120,23 @@ const Text = styled.p`
     font-size: 14px;
 `;
 
+const Error = styled.span`
+    font-size: 14px;
+    font-weight: 300;
+    margin: 5px;
+    color: red;
+`;
+
+const Success = styled.span`
+    font-size: 14px;
+    font-weight: 300;
+    margin: 5px;
+    color: green;
+`;
+
 const Create = () => {
     const user = useSelector(state => state.user.currentUser);
+    const [status, setStatus] = useState(null);
     const [file, setFile] = useState(null);
     const [model, setModel] = useState({
         title: '',
@@ -147,7 +162,7 @@ const Create = () => {
         }
     };
 
-    async function upload() {
+    function upload() {
         const fileName = new Date().getTime() + file.name;
         const metadata = {
             contentType: 'image/jpeg'
@@ -176,6 +191,7 @@ const Create = () => {
         e.preventDefault();
         try {
             await upload();
+            setStatus(true);
         } catch (error) { }
     }
 
@@ -219,6 +235,8 @@ const Create = () => {
                             />
                             <UploadButton onClick={handleUpload}>Upload</UploadButton>
                         </UploadImageWrapper>
+                        {status === false && <Error>Something went wrong!</Error>}
+                        {status && <Success>Image has beed uploaded!</Success>}
                         <Label>Colors</Label>
                         <Input
                             name="color"
