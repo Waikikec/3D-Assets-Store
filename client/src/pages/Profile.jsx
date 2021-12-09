@@ -11,6 +11,9 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { grey } from '@mui/material/colors';
 
 import { userRequest } from '../utils/requestMethods';
+import { useDispatch } from 'react-redux';
+// import { updateUser } from '../redux/userRedux';
+import { updateUser } from '../redux/apiCalls';
 
 const Container = styled.div``;
 
@@ -105,6 +108,9 @@ const Profile = () => {
     const [userInfo, setUserInfo] = useState({});
     const id = useLocation().pathname.split('/')[2];
 
+    const dispatch = useDispatch();
+
+
     const onChange = (e) => {
         e.preventDefault();
         setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
@@ -117,13 +123,17 @@ const Profile = () => {
 
     const handleUpdate = (e) => {
         e.preventDefault();
-        const updateUserInfo = async () => {
-            try {
-                await userRequest.put('/users/' + id, userInfo);
-                setUpdateMode(false);
-            } catch (error) { }
-        }
-        updateUserInfo();
+
+        // updateUser(id, userInfo);
+        updateUser(dispatch, id, userInfo);
+        setUpdateMode(false);
+        // const updateUserInfo = async () => {
+        //     try {
+        //         await userRequest.put('/users/' + id, userInfo);
+        //         setUpdateMode(false);
+        //     } catch (error) { }
+        // }
+        // updateUserInfo();
     }
 
     useEffect(() => {

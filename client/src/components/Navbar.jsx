@@ -68,7 +68,7 @@ const MenuItem = styled.span`
 // Right Part of Navigation Bar
 const Right = styled.div`
     flex: 1;
-    display:flex;
+    display: flex;
     justify-content: flex-end;
     align-items: center;
     ${mobile({ flex: "2", justifyContent: "center" })};
@@ -79,7 +79,7 @@ const ProfileImg = styled.img`
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
-    margin-left: 15px;
+    margin: 0px 10px 0px 10px;
     cursor: pointer;
 `;
 
@@ -106,14 +106,20 @@ const Navbar = () => {
                     <Link to="/catalog">
                         <MenuItem>CATALOG</MenuItem>
                     </Link>
-
-                    <Link to="/create">
-                        <MenuItem>CREATE</MenuItem>
-                    </Link>
-
-                    <MenuItem>FAVOURITES</MenuItem>
-                    <MenuItem>TUTORIALS</MenuItem>
-                    <MenuItem>STUDIO SETS</MenuItem>
+                    {
+                        user
+                            ? (
+                                <>
+                                    <Link to="/create">
+                                        <MenuItem>CREATE</MenuItem>
+                                    </Link>
+                                    <Link to="/favourites">
+                                        <MenuItem>FAVOURITES</MenuItem>
+                                    </Link>
+                                </>
+                            )
+                            : (<></>)
+                    }
                 </Center>
                 <Right>
                     {
@@ -124,11 +130,11 @@ const Navbar = () => {
                                     <Link to={`/profile/${user._id}`}>
                                         {
                                             user.profilePicture
-                                            ? (<ProfileImg src={user.profilePicture} />)
-                                            : <AccountCircleIcon style={{ marginLeft: 5 }} />
-                                        } 
-                                        <MenuItem>Hello, {user.username}</MenuItem>
+                                                ? (<ProfileImg src={user.profilePicture} />)
+                                                : <AccountCircleIcon style={{ marginLeft: 5 }} />
+                                        }
                                     </Link>
+                                    <MenuItem pointer>Hello, {user.username}!</MenuItem>
                                 </>
                             )
                             : (
@@ -141,13 +147,13 @@ const Navbar = () => {
                                     </Link>
                                     <Link to={'/login'}>
                                         <AccountCircleIcon style={{ marginLeft: 5 }} />
-                                        <MenuItem>Hello, Guest!</MenuItem>
                                     </Link>
+                                    <MenuItem>Hello, Guest!</MenuItem>
                                 </>
                             )
                     }
                 </Right>
-            </Wrapper>
+            </Wrapper >
         </Container >
     )
 }
