@@ -136,6 +136,7 @@ const Success = styled.span`
 
 const Create = () => {
     const user = useSelector(state => state.user.currentUser);
+    console.log(user);
     const [status, setStatus] = useState(null);
     const [file, setFile] = useState(null);
     const [model, setModel] = useState({

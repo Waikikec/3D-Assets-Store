@@ -27,7 +27,7 @@ function App() {
         <Route path="/details/:id" element={<Details />} />
         <Route path="/edit/:id" element={user ? <Details /> : <Details />} />
         <Route path="/catalog" element={user ? <Catalog /> : <Catalog />} />
-        <Route path="/logout" element={user ? <Navigate to='/' /> : <Login />} />
+        <Route path="/logout" element={<Navigate to='/' />} />
       </Routes>
     </BrowserRouter>
   );

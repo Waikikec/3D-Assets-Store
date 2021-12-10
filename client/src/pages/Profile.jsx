@@ -221,19 +221,19 @@ const Profile = () => {
                             (<Input
                                 name="website"
                                 onChange={onChange}
-                            />) : (<Input value={currentUser.website || ''} disabled />)}
+                            />) : (<Input value={currentUser.website || 'http://'} disabled />)}
                         <Label>Behance</Label>
                         {updateMode ?
                             (<Input
                                 name="behance"
                                 onChange={onChange}
-                            />) : (<Input value={currentUser.behance || ''} disabled />)}
+                            />) : (<Input value={currentUser.behance || 'http://'} disabled />)}
                         <Label>Instagram</Label>
                         {updateMode ?
                             (<Input
                                 name="instagram"
                                 onChange={onChange}
-                            />) : (<Input value={currentUser.instagram || ''} disabled />)}
+                            />) : (<Input value={currentUser.instagram || 'http://'} disabled />)}
                     </Form>
                     <ImageContainer>
                         {
@@ -286,7 +286,7 @@ const Profile = () => {
                                 : <Button primary>UPDATE</Button>
                             }
                         </ButtonContainer>
-                        {error && <Error>Something went wrong!</Error>}
+                        {error && <Error>Password is required!</Error>}
                         {pending && (<Success>Account has been updated!</Success>)}
                     </ImageContainer>
                 </UpdateInfo>

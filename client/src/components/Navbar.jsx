@@ -126,7 +126,9 @@ const Navbar = () => {
                         user
                             ? (
                                 <>
-                                    <MenuItem onClick={handleLogout}>LOGOUT</MenuItem>
+                                    <Link to='/logout'>
+                                        <MenuItem onClick={handleLogout}>LOGOUT</MenuItem>
+                                    </Link>
                                     <Link to={`/profile/${user._id}`}>
                                         {
                                             user.profilePicture

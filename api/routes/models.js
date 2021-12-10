@@ -55,6 +55,24 @@ router.get('/:id', async (req, res) => {
     }
 })
 
+//Like - Dislike a Model
+router.put('/:id/like', async (req, res) => {
+    try {
+        const model = await Model.findById(req.params.id);
+        if (!model.likes.includes(req.body.userId)) {
+            await model.updateOne({ $push: { likes: req.body.userId } });
+            res.status(200).json('The model has been liked!');
+        } else {
+            await model.updateOne({ $pull: { likes: req.body.userId } });
+            res.status(200).json('The model has been disliked!');
+        }
+    } catch (error) {
+        res.status(500).json(error);
+        console.log(error);
+    }
+})
+
+
 //Get All Favourites Models for USER
 router.get('/favourites/:userId', isUser, async (req, res) => {
     try {
