@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const Model = require('../models/Model');
 
-const { verifyToken, isUser } = require('./guards');
+const { verifyToken, isAuthor } = require('./guards');
 
 router.post('/', verifyToken, async (req, res) => {
     const model = new Model(req.body);
@@ -14,7 +14,7 @@ router.post('/', verifyToken, async (req, res) => {
     }
 })
 
-router.put('/:id', isUser, async (req, res) => {
+router.put('/:id', isAuthor, async (req, res) => {
     try {
         const updatedModel = await Model.findByIdAndUpdate(req.params.id,
             { $set: req.body },
@@ -55,8 +55,8 @@ router.get('/:id', async (req, res) => {
     }
 })
 
-//Like - Dislike a Model
-router.put('/:id/like', async (req, res) => {
+//Like - Dislike Option
+router.put('/:id/like', verifyToken, async (req, res) => {
     try {
         const model = await Model.findById(req.params.id);
         if (!model.likes.includes(req.body.userId)) {
@@ -68,13 +68,28 @@ router.put('/:id/like', async (req, res) => {
         }
     } catch (error) {
         res.status(500).json(error);
-        console.log(error);
+    }
+})
+
+//Favourite Option
+router.put('/:id/favourite', verifyToken, async (req, res) => {
+    try {
+        const model = await Model.findById(req.params.id);
+        if (!model.favourites.includes(req.body.userId)) {
+            await model.updateOne({ $push: { favourites: req.body.userId } });
+            res.status(200).json('The model has been added to collection!');
+        } else {
+            await model.updateOne({ $pull: { favourites: req.body.userId } });
+            res.status(200).json('The model has been removed from collection!');
+        }
+    } catch (error) {
+        res.status(500).json(error);
     }
 })
 
 
 //Get All Favourites Models for USER
-router.get('/favourites/:userId', isUser, async (req, res) => {
+router.get('/favourites/:userId', verifyToken, async (req, res) => {
     try {
         const models = await Model.find({ userId: req.params.userId });
         res.status(200).json(models);

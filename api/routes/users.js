@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const Model = require('../models/Model');
 
-const { verifyToken, isUser } = require('./guards');
+const { verifyToken, isAuthor } = require('./guards');
 
 //Get User by Id with valid Token
 router.get('/:id', verifyToken, async (req, res) => {
@@ -18,7 +18,7 @@ router.get('/:id', verifyToken, async (req, res) => {
 })
 
 //Update User Info with valid Token
-router.put('/:id', isUser, async (req, res) => {
+router.put('/:id', isAuthor, async (req, res) => {
     if (req.user.id === req.params.id) {
         if (req.body.password) {
             const salt = await bcrypt.genSalt(10);
@@ -39,7 +39,7 @@ router.put('/:id', isUser, async (req, res) => {
 })
 
 //Delete User
-router.delete('/:id', isUser, async (req, res) => {
+router.delete('/:id', isAuthor, async (req, res) => {
     try {
         await User.findByIdAndDelete(req.params.id);
         res.status(200).json('User has been deleted!');

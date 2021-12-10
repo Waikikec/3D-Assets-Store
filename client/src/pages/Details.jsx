@@ -171,6 +171,7 @@ const Details = () => {
     const [product, setProduct] = useState({});
     const [like, setLike] = useState(product.likes?.length);
     const [isLiked, setIsLiked] = useState(false);
+    const [isFavourite, setIsFavourite] = useState(false);
 
     const user = useSelector(state => state.user).currentUser;
     const isAuthor = user?.username === product.author;
@@ -183,7 +184,7 @@ const Details = () => {
             } catch (error) { }
         }
         getProduct();
-    }, [id, like, isLiked]);
+    }, [id, isLiked]);
 
     useEffect(() => {
         setIsLiked(product.likes?.includes(user?._id));
@@ -201,10 +202,18 @@ const Details = () => {
     const handleLike = async () => {
         try {
             await userRequest.put('/models/' + id + '/like',
-                { userId: user._id });
+                { userId: user?._id });
         } catch (error) { }
         setLike(isLiked ? like - 1 : like + 1);
         setIsLiked(!isLiked);
+    };
+
+    const handleFavourite = async () => {
+        try {
+            await userRequest.put('/models/' + id + '/favourite',
+                { userId: user._id });
+        } catch (error) { }
+        setIsFavourite(!isFavourite);
     };
 
     return (
@@ -279,8 +288,11 @@ const Details = () => {
                                     }
                                     Like
                                 </Buttons>
-                                <Buttons>
-                                    <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
+                                <Buttons onClick={handleFavourite}>
+                                    {isFavourite
+                                        ? <Favorite sx={{ padding: 1 }} color="primary" />
+                                        : <FavoriteBorder sx={{ padding: 1 }} color="primary" />
+                                    }
                                     Favourite
                                 </Buttons>
                             </ButtonsWrapper>

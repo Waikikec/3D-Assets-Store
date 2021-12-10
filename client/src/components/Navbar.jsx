@@ -94,26 +94,26 @@ const Navbar = () => {
         <Container>
             <Wrapper>
                 <Left>
-                    <Link to="/">
+                    <Link to='/'>
                         <Title>CG STORE</Title>
                     </Link>
                     <SearchContainer>
-                        <Input placeholder="Search" />
+                        <Input placeholder='Search' />
                         <SearchIcon style={{ color: "gray", fontSize: "16px" }} />
                     </SearchContainer>
                 </Left>
                 <Center>
-                    <Link to="/catalog">
+                    <Link to='/catalog'>
                         <MenuItem>CATALOG</MenuItem>
                     </Link>
                     {
                         user
                             ? (
                                 <>
-                                    <Link to="/create">
+                                    <Link to='/create'>
                                         <MenuItem>CREATE</MenuItem>
                                     </Link>
-                                    <Link to="/favourites">
+                                    <Link to={`/favourites/${user._id}`}>
                                         <MenuItem>FAVOURITES</MenuItem>
                                     </Link>
                                 </>

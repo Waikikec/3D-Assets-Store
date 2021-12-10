@@ -19,7 +19,7 @@ const verifyToken = (req, res, next) => {
     }
 }
 
-const isUser = (req, res, next) => {
+const isAuthor = (req, res, next) => {
     verifyToken(req, res, () => {
         if (req.user.id === req.params.id) {
             next();
@@ -31,5 +31,5 @@ const isUser = (req, res, next) => {
 
 module.exports = {
     verifyToken,
-    isUser,
+    isAuthor,
 }

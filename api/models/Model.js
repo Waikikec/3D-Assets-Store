@@ -11,8 +11,8 @@ const modelSchema = new Schema({
     render: { type: String, required: true },
     description: { type: String, required: true },
     tags: { type: Array, required: true },
-    likes: { type: Array, default: [], },
-    favourite: { type: Boolean, default: false },
+    likes: { type: Array, default: [] },
+    favourites: { type: Array, default: [] },
     author: { type: String, required: true },
 },
     { timestamps: true }
