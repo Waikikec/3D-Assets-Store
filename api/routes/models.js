@@ -37,8 +37,27 @@ router.delete('/:id', async (req, res) => {
 
 //All Models for Catalog Page (for all USERS)
 router.get('/', async (req, res) => {
+    const qFavourite = req.query.favourite;
+    const qCategory = req.query.category;
+    console.log(qCategory);
     try {
-        const models = await Model.find();
+        let models;
+
+        if (qCategory) {
+            models = await Model.find({
+                category: {
+                    $in: [qCategory],
+                },
+            });
+        } else if (qFavourite) {
+            models = await Model.find({
+                favourites: {
+                    $in: [qFavourite],
+                },
+            });
+        } else {
+            models = await Model.find();
+        }
         res.status(200).json(models);
     } catch (error) {
         res.status(500).json(error);
@@ -86,17 +105,5 @@ router.put('/:id/favourite', verifyToken, async (req, res) => {
         res.status(500).json(error);
     }
 })
-
-
-//Get All Favourites Models for USER
-router.get('/favourites/:userId', verifyToken, async (req, res) => {
-    try {
-        const models = await Model.find({ userId: req.params.userId });
-        res.status(200).json(models);
-    } catch (error) {
-        res.status(500).json(error);
-    }
-})
-
 
 module.exports = router;

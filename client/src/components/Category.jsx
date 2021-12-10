@@ -5,13 +5,14 @@ import styled from 'styled-components';
 import { mobile } from '../utils/responsive';
 
 const Container = styled.div`
-    background-color: whitesmoke;
     padding: 5px;
     flex: 1;
     margin: 3px;
     height: 10vh;
     position: relative;
-    border-radius: 10px;
+    background-color: whitesmoke;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 `;
 
 const Image = styled.img`
@@ -44,7 +45,7 @@ const Title = styled.h1`
 const Category = ({ item }) => {
     return (
         <Container>
-            <Link to={`/categories/${item.category}`}>
+            <Link to={`/catalog/${item.category}`}>
                 <Image src={item.img}></Image>
                 <Info>
                     <Background />

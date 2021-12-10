@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 
-import Checkbox from '@mui/material/Checkbox';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
@@ -312,17 +311,17 @@ const Details = () => {
                             ? (
                                 <ButtonsWrapper>
                                     <Link to={`/edit/${product._id}`}>
-                                        <EditIcon sx={{ color: green[500], fontSize: 30, paddingLeft: 3 }} />
+                                        <EditIcon 
+                                        sx={{ color: green[500], fontSize: 30, paddingLeft: 3 }} />
                                     </Link>
                                     <DeleteIcon
-                                        sx={{ color: red[500], fontSize: 30, paddingLeft: 3 }}
+                                        sx={{ color: red[500], fontSize: 30, paddingLeft: 3, cursor: 'pointer' }}
                                         onClick={handleDelete}
                                     />
                                 </ButtonsWrapper>
                             )
                             : (<></>)
                     }
-
                     {error && <Error>Somethng went wrong!</Error>}
                 </InfoContainer>
             </Wrapper>

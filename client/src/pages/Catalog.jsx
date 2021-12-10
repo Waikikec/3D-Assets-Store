@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useLocation } from "react-router";
 import styled from 'styled-components';
-import Footer from '../components/Footer';
 
 import Navbar from '../components/Navbar';
 import Products from '../components/Products';
+import Footer from '../components/Footer';
 
-import { useState } from "react";
 import { mobile } from '../utils/responsive';
 
 const Container = styled.div``;
@@ -36,6 +36,8 @@ const Select = styled.select`
 const Option = styled.option``;
 
 const Catalog = () => {
+    const location = useLocation();
+    const category = location.pathname.split('/')[2];
     const [filters, setFilters] = useState({});
     const [sort, setSort] = useState('');
 
@@ -79,7 +81,7 @@ const Catalog = () => {
                     </Select>
                 </Filter>
             </FilterContainer>
-            <Products filters={filters} sort={sort} />
+            <Products category={category} filters={filters} sort={sort} />
             <Footer />
         </Container>
     )

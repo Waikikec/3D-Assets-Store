@@ -12,21 +12,24 @@ const Container = styled.div`
     padding: 10px 120px;
 `;
 
-const Products = ({ filters, sort }) => {
-    const location = useLocation();
-    const category = location.pathname.split('/')[1];
+const Products = ({ category, filters, sort }) => {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
+    console.log(category);
 
     useEffect(() => {
         const getProducts = async () => {
             try {
-                const res = await publicRequest.get('/models');
+                const res = await publicRequest.get(
+                    category
+                        ? `/models?category=${category}`
+                        : '/models'
+                );
                 setProducts(res.data);
             } catch (error) { }
         }
         getProducts();
-    }, []);
+    }, [category]);
 
     useEffect(() => {
         category &&
@@ -56,7 +59,7 @@ const Products = ({ filters, sort }) => {
     return (
         <Container>
             {category
-                ? filteredProducts.map(item => <Product item={item} key={item.id} />)
+                ? filteredProducts.map(item => <Product item={item} key={item._id} />)
                 : products
                     .slice(0, 14)
                     .map(item => <Product item={item} key={item._id} />)
