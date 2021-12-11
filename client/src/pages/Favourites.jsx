@@ -5,7 +5,12 @@ import Navbar from '../components/Navbar';
 import Collection from '../components/Collection';
 import Footer from '../components/Footer';
 
-const Container = styled.div``;
+const Container = styled.div`
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    /* margin: 0px; */
+`;
 
 const Favourites = () => {
     return (

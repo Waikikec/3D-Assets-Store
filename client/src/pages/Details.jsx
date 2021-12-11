@@ -257,7 +257,7 @@ const Details = () => {
                             <ModelProperty>Material:</ModelProperty>
                             <ModelPropInfo>
                                 {product.material?.map((t) => (
-                                    <ModelSpan>{t}</ModelSpan>
+                                    <ModelSpan key={t}>{t}</ModelSpan>
                                 ))}
                             </ModelPropInfo>
                         </ModelItem>
@@ -307,7 +307,7 @@ const Details = () => {
                     <ModelTitleSection>TAGS</ModelTitleSection>
                     <ModelDesc>
                         {product.tags?.map((t) => (
-                            <ModelSpan>{t}</ModelSpan>
+                            <ModelSpan key={t}>{t}</ModelSpan>
                         ))}
                     </ModelDesc>
                     {

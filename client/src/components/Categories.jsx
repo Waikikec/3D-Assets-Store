@@ -8,7 +8,7 @@ import { mobile } from '../utils/responsive'
 
 const Container = styled.div`
     display: flex;
-    padding: 20px;
+    padding: 20px 130px;
     flex-wrap: wrap;
     justify-content: space-between;
     ${mobile({ padding: "0px", flexDirection: "column" })};

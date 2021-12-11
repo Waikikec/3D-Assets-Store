@@ -8,7 +8,11 @@ import Footer from '../components/Footer';
 
 import { mobile } from '../utils/responsive';
 
-const Container = styled.div``;
+const Container = styled.div`
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+`;
 
 const FilterContainer = styled.div`
     display: flex;

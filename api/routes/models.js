@@ -48,7 +48,7 @@ router.get('/', async (req, res) => {
                 },
             });
         } else {
-            models = await Model.find();
+            models = await Model.find({});
         }
         res.status(200).json(models);
     } catch (error) {

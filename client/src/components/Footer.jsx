@@ -13,8 +13,9 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import { mobile } from '../utils/responsive';
 
 const Container = styled.div`
-    display:flex;
+    display: flex;
     background-color: whitesmoke;
+    margin-top: auto;
     ${mobile({ flexDirection: "column" })};
 `;
 

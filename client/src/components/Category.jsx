@@ -5,13 +5,12 @@ import styled from 'styled-components';
 import { mobile } from '../utils/responsive';
 
 const Container = styled.div`
-    padding: 5px;
     flex: 1;
+    padding: 5px;
     margin: 3px;
     height: 10vh;
     position: relative;
     background-color: whitesmoke;
-    border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 `;
 
@@ -33,6 +32,7 @@ const Info = styled.div`
     align-items: center;
     justify-content: center;
 `;
+
 const Background = styled.div`
     background-color: grey;
 `;

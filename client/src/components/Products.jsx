@@ -14,13 +14,13 @@ const Container = styled.div`
 const Products = ({ category, filters, sort }) => {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
-
+    
     useEffect(() => {
         const getProducts = async () => {
             try {
                 const res = await publicRequest.get(
                     (category && category !== 'catalog')
-                        ? (`/models?category=${category}`)
+                        ? `/models?category=${category}`
                         : '/models'
                 );
                 setProducts(res.data);
@@ -38,7 +38,7 @@ const Products = ({ category, filters, sort }) => {
                     )
                 )
             )
-    }, [products, category, filters]);
+    }, [category, products, filters]);
 
     useEffect(() => {
         if (sort === 'asc') {
@@ -56,21 +56,10 @@ const Products = ({ category, filters, sort }) => {
 
     return (
         <Container>
-            {(() => {
-                if (!category) {
-                    return (
-                        products.slice(0, 14).map(item => <Product item={item} key={item._id} />)
-                    )
-                } else if (category === 'catalog') {
-                    return (
-                        filteredProducts.map(item => <Product item={item} key={item._id} />)
-                    )
-                } else {
-                    return (
-                        filteredProducts.map(item => <Product item={item} key={item._id} />)
-                    )
-                }
-            })()}
+            {category
+                ? filteredProducts.map(item => <Product item={item} key={item._id} />)
+                : products.slice(0, 14).map(item => <Product item={item} key={item._id} />)
+            }
         </Container>
     )
 }
