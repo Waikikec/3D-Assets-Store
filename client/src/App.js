@@ -22,7 +22,7 @@ function App() {
         {/* PAGES FOR GUEST */}
         <Route path="/register" element={user ? <Navigate to='/' /> : <Register />} />
         <Route path="/login" element={user ? <Navigate to='/' /> : <Login />} />
-        <Route path="/catalog" element={<Catalog />} />
+        <Route path="/catalog/" element={<Catalog />} />
         <Route path="/catalog/:category" element={<Catalog />} />
         <Route path="/details/:id" element={<Details />} />
         {/* PAGES FOR USER */}

@@ -183,11 +183,15 @@ const Details = () => {
             } catch (error) { }
         }
         getProduct();
-    }, [id, isLiked]);
+    }, [id, isLiked, isFavourite]);
 
     useEffect(() => {
         setIsLiked(product.likes?.includes(user?._id));
     }, [user?._id, product.likes]);
+
+    useEffect(() => {
+        setIsFavourite(product.favourites?.includes(user?._id))
+    }, [user?._id, product.favourites]);
 
     const handleDelete = async () => {
         try {
@@ -210,7 +214,7 @@ const Details = () => {
     const handleFavourite = async () => {
         try {
             await userRequest.put('/models/' + id + '/favourite',
-                { userId: user._id });
+                { userId: user?._id });
         } catch (error) { }
         setIsFavourite(!isFavourite);
     };
@@ -311,8 +315,8 @@ const Details = () => {
                             ? (
                                 <ButtonsWrapper>
                                     <Link to={`/edit/${product._id}`}>
-                                        <EditIcon 
-                                        sx={{ color: green[500], fontSize: 30, paddingLeft: 3 }} />
+                                        <EditIcon
+                                            sx={{ color: green[500], fontSize: 30, paddingLeft: 3 }} />
                                     </Link>
                                     <DeleteIcon
                                         sx={{ color: red[500], fontSize: 30, paddingLeft: 3, cursor: 'pointer' }}

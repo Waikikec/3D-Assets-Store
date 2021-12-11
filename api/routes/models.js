@@ -37,9 +37,7 @@ router.delete('/:id', async (req, res) => {
 
 //All Models for Catalog Page (for all USERS)
 router.get('/', async (req, res) => {
-    const qFavourite = req.query.favourite;
     const qCategory = req.query.category;
-    console.log(qCategory);
     try {
         let models;
 
@@ -47,12 +45,6 @@ router.get('/', async (req, res) => {
             models = await Model.find({
                 category: {
                     $in: [qCategory],
-                },
-            });
-        } else if (qFavourite) {
-            models = await Model.find({
-                favourites: {
-                    $in: [qFavourite],
                 },
             });
         } else {
@@ -64,7 +56,21 @@ router.get('/', async (req, res) => {
     }
 })
 
-//Current Model for Detail Page (for all USERS)
+//FAVOURITES PAGE
+router.get('/favourites/:id', async (req, res) => {
+    try {
+        const models = await Model.find({
+            favourites: {
+                $in: [req.params.id],
+            },
+        });
+        res.status(200).json(models);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+})
+
+//DETAILS PAGE
 router.get('/:id', async (req, res) => {
     try {
         const model = await Model.findById(req.params.id);

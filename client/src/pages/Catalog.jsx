@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation } from "react-router";
+import { useLocation } from 'react-router';
 import styled from 'styled-components';
 
 import Navbar from '../components/Navbar';
@@ -37,7 +37,7 @@ const Option = styled.option``;
 
 const Catalog = () => {
     const location = useLocation();
-    const category = location.pathname.split('/')[2];
+    const category = location.pathname.split('/')[1];
     const [filters, setFilters] = useState({});
     const [sort, setSort] = useState('');
 

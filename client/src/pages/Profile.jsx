@@ -179,7 +179,6 @@ const Profile = () => {
             return;
         }
         let updatedUser = { ...currentUser, ...userInfo };
-        console.log(updatedUser);
         updateUser(dispatch, id, updatedUser);
         setUpdateMode(false);
     }

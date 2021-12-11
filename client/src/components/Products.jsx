@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router';
 import styled from 'styled-components';
 
 import Product from './Product';
@@ -15,14 +14,13 @@ const Container = styled.div`
 const Products = ({ category, filters, sort }) => {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
-    console.log(category);
 
     useEffect(() => {
         const getProducts = async () => {
             try {
                 const res = await publicRequest.get(
-                    category
-                        ? `/models?category=${category}`
+                    (category && category !== 'catalog')
+                        ? (`/models?category=${category}`)
                         : '/models'
                 );
                 setProducts(res.data);
@@ -36,7 +34,7 @@ const Products = ({ category, filters, sort }) => {
             setFilteredProducts(
                 products.filter((item) =>
                     Object.entries(filters).every(([key, value]) =>
-                        item[key].includes(value)
+                        item[key].includes(value),
                     )
                 )
             )
@@ -58,12 +56,21 @@ const Products = ({ category, filters, sort }) => {
 
     return (
         <Container>
-            {category
-                ? filteredProducts.map(item => <Product item={item} key={item._id} />)
-                : products
-                    .slice(0, 14)
-                    .map(item => <Product item={item} key={item._id} />)
-            }
+            {(() => {
+                if (!category) {
+                    return (
+                        products.slice(0, 14).map(item => <Product item={item} key={item._id} />)
+                    )
+                } else if (category === 'catalog') {
+                    return (
+                        filteredProducts.map(item => <Product item={item} key={item._id} />)
+                    )
+                } else {
+                    return (
+                        filteredProducts.map(item => <Product item={item} key={item._id} />)
+                    )
+                }
+            })()}
         </Container>
     )
 }
