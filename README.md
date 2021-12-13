@@ -1,70 +1,91 @@
-# Getting Started with Create React App
+# React JS November 2021 SoftUni
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![MERN](https://raw.githubusercontent.com/miles-till/easy-mern-stack/master/media/mern.png)
 
-## Available Scripts
+# Contents
 
-In the project directory, you can run:
+- [Quick Start](#quick-start)
+  - [Configure](#configure)
+  - [Run](#run)
+  - [Deploy](#deploy)
+- [NPM Scripts (package.json)](#npm-scripts-package.json)
+- [Client](#client)
+- [Server](#server)
+- [Development Tools](#development-tools)
+- [License](#license)
 
-### `npm start`
+# Quick Start
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. Install [Node.js](https://nodejs.org/en/) & NPM
+2. Install [Nodemon](https://github.com/remy/nodemon) package globally:
+   ```
+   npm i nodemon -g
+   ```
+3. Install server and client packages:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+   ```
+   npm install
+   ```
 
-### `npm test`
+4. Install [MongoDB](https://www.mongodb.com/download-center/community)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Folder Structure
+```
++-- client/                # react client app
+|   +-- public/                 # static resources
+|   +-- src/                    # client source
+|   |   +-- pages/                  # react pages
+|   |   +-- components/             # react components
+|   |   +-- redux/                  # redux store and user slice
+|   |   +-- utils/                  # firebase config and dummy data
+|   |   +-- App.js                  # Routes and Navigations
+|   |   +-- index.js                # client-side config
+|   |
+|   +-- package.json            # npm package config
+|
++-- api/                   # node web server + api
+|   +-- src/                    # server source
+|   |   +-- routes/                 # api endpoints
+|   |   +-- models/                 # mongoose data models
+|   |   +-- index.js                # server config
+|   |
+|   +-- package.json            # server npm package config
+|
++-- README.md              # this readme file
+```
 
-### `npm run build`
+# Client
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- [React](https://reactjs.org/)
+  - Web client
+- [Axios](https://github.com/axios/axios)
+  - AJAX requests
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Server
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- [Node.js](https://nodejs.org/en/)
+  - Server platform
+- [Express](https://expressjs.com/)
+  - Web server
+- [MongoDB Atlas Database](https://www.mongodb.com/atlas/database)
+  - Database server
+- [Mongoose](https://mongoosejs.com/)
+  - Server-side data models
 
-### `npm run eject`
+# Development Tools
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- [NPM](https://yarnpkg.com/en/)
+  - Package manager and script runner
+- [Nodemon](https://github.com/remy/nodemon)
+  - Monitors and restarts node server when source changes
+- [Cors](https://www.npmjs.com/package/cors)
+  - Package for providing a Connection/Express middleware that can be used to enable CORS with various options.
+- [Styled Components](https://styled-components.com/)
+  - Visual primitives to style application
+- [Firebase Storage](https://www.npmjs.com/package/firebase)
+  - Firebase Storage lets you upload and store user generated content, such as files, and images.
+- [Redux Toolkig](https://redux.js.org/)
+  - Centralizing your application's state and logic
+# License
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is licensed under the `MIT open source license`.
