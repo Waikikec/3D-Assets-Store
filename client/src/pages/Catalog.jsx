@@ -20,15 +20,14 @@ const FilterContainer = styled.div`
 `;
 
 const Filter = styled.div`
-    background-color: thistle;
     display: flex;
     align-items: center;
-    margin: 10px;
+    margin: 20px;
     ${mobile({ width: "0px 20px", display: "flex", flexDirection: "column" })};
 `;
 
 const FilterText = styled.span`
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 600;
     margin-right: 10px;
     ${mobile({ marginRight: "0px" })};
@@ -37,7 +36,7 @@ const FilterText = styled.span`
 const Select = styled.select`
     padding: 10px;
     margin-right: 20px;
-    border-radius: 15px;
+    border-radius: 10px;
     ${mobile({ margin: "10px 0px" })};
 `;
 
@@ -49,6 +48,7 @@ const ClearIconStyled = styled.div`
     justify-content: center;
     border: 1px solid #bebebe;
     border-radius: 50%;
+    cursor: pointer;
 `;
 
 const Option = styled.option``;

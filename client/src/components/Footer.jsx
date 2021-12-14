@@ -58,7 +58,7 @@ const Center = styled.div`
 `;
 
 const Title = styled.h3`
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 `;
 
 const List = styled.ul`
@@ -71,7 +71,7 @@ const List = styled.ul`
 
 const ListItem = styled.li`
     width: 50%;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     cursor: pointer;
 `;
 
@@ -83,7 +83,7 @@ const Right = styled.div`
 `;
 
 const ContactItem = styled.div`
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
 `;
@@ -112,9 +112,11 @@ const Footer = () => {
                     <ListItem>Home</ListItem>
                     <ListItem>My Account</ListItem>
                     <ListItem>Wish List</ListItem>
-                    <ListItem>Categories</ListItem>
-                    <ListItem>Terms</ListItem>
-                    <ListItem>Catalog</ListItem>
+                    <ListItem>FAQ</ListItem>
+                    <ListItem>Terms & Conditions</ListItem>
+                    <ListItem>Privacy Policy</ListItem>
+                    <ListItem>Content Policy</ListItem>
+                    <ListItem>Contact and support</ListItem>
                 </List>
             </Center>
             <Right>
