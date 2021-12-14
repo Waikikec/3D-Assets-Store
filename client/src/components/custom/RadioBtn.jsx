@@ -58,7 +58,7 @@ const Label = styled.label`
     `}
 `;
 
-const RadioBtn = ({ name, children }) => {
+const RadioBtn = ({ name, children, checked }) => {
     return (
         <RadioWrapper>
             <Label>
@@ -66,6 +66,7 @@ const RadioBtn = ({ name, children }) => {
                     type="radio"
                     name={name}
                     value={children}
+                    checked={checked}
                 />
                 <Mark />
                 {children}

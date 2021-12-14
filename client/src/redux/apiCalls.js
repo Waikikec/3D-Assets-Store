@@ -10,7 +10,7 @@ import {
     updateSuccess,
     updateFailure,
 } from './userRedux';
-import { publicRequest, userRequest } from '../utils/requestMethods';
+import { userRequest } from '../utils/requestMethods';
 
 export const login = async (dispatch, user) => {
     dispatch(loginStart());

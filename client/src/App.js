@@ -9,6 +9,7 @@ import Catalog from "./pages/Catalog";
 import Details from "./pages/Details";
 import Favourites from "./pages/Favourites";
 import Create from "./pages/Create";
+import Edit from "./pages/Edit";
 
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
@@ -27,7 +28,7 @@ function App() {
         <Route path="/details/:id" element={<Details />} />
         {/* PAGES FOR USER */}
         <Route path="/create" element={user ? <Create /> : <Navigate to='/' />} />
-        <Route path="/edit/:id" element={user ? <Details /> : <Details />} />
+        <Route path="/edit/:id" element={user ? <Edit /> : <Home />} />
         <Route path="/profile/:id" element={user ? <Profile /> : <Navigate to='/' />} />
         <Route path="/favourites/:id" element={user ? <Favourites /> : <Navigate to='/' />} />
         <Route path="/logout" element={<Navigate to='/' />} />

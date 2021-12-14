@@ -16,6 +16,8 @@
 
 # Quick Start
 
+## `config`
+
 1. Install [Node.js](https://nodejs.org/en/) & NPM
 2. Install [Nodemon](https://github.com/remy/nodemon) package globally:
    ```
@@ -29,7 +31,21 @@
 
 4. Install [MongoDB](https://www.mongodb.com/download-center/community)
 
+## `run`
+
+1. start node.js web server from api folder
+
+   ```
+   npm start
+   ```
+
+2. start react client app from client folder
+   ```
+   npm start
+   ```
+
 # Folder Structure
+
 ```
 +-- client/                # react client app
 |   +-- public/                 # static resources
@@ -86,6 +102,7 @@
   - Firebase Storage lets you upload and store user generated content, such as files, and images.
 - [Redux Toolkig](https://redux.js.org/)
   - Centralizing your application's state and logic
+
 # License
 
 This project is licensed under the `MIT open source license`.

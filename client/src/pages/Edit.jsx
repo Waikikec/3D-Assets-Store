@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import RadioBtn from '../components/custom/RadioBtn';
-import MultiSelect from '../components/custom/MultiSelect';
+import { userRequest } from '../utils/requestMethods';
 
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { userRequest } from '../utils/requestMethods';
 import app from '../utils/firebase';
 
 const Container = styled.div``;
@@ -120,28 +120,11 @@ const Text = styled.p`
     font-size: 14px;
 `;
 
-const Error = styled.span`
-    font-size: 14px;
-    font-weight: 300;
-    margin: 5px;
-    color: red;
-`;
-
-const Success = styled.span`
-    font-size: 14px;
-    font-weight: 300;
-    margin: 5px;
-    color: green;
-`;
-
-const MaterialWrapper = styled.div`
-    margin: 10px 0px;
-`;
-
 const Create = () => {
     const user = useSelector(state => state.user.currentUser);
+    const location = useLocation();
+    const id = location.pathname.split('/')[2];
 
-    const [status, setStatus] = useState(null);
     const [file, setFile] = useState(null);
     const [model, setModel] = useState({
         title: '',
@@ -156,6 +139,16 @@ const Create = () => {
         author: user.username,
     });
 
+    useEffect(() => {
+        const getProduct = async () => {
+            try {
+                const res = await userRequest.get('/models/' + id);
+                setModel(res.data);
+            } catch (error) { }
+        };
+        getProduct();
+    }, [id]);
+
     const onChange = (e) => {
         if (e.target.name === 'color' || e.target.name === 'tags' || e.target.name === 'material') {
             let tokens = e.target.value
@@ -167,7 +160,7 @@ const Create = () => {
         }
     };
 
-    function uploadImage() {
+    function upload() {
         const fileName = new Date().getTime() + file.name;
         const metadata = {
             contentType: 'image/jpeg'
@@ -195,27 +188,16 @@ const Create = () => {
     const handleUpload = async (e) => {
         e.preventDefault();
         try {
-            await uploadImage();
-            setStatus(true);
+            await upload();
         } catch (error) { }
     }
 
-    const handleCreate = async (e) => {
+    const handleUpdate = async (e) => {
         e.preventDefault();
         try {
-            const res = await userRequest.post('/models', model);
+            const res = await userRequest.put('/models/' + id, model);
             window.location.replace('/details/' + res.data._id);
         } catch (error) { }
-    }
-
-    const handleMaterials = (e) => {
-        let tokens = e.map(i => i.value);
-        setModel({ ...model, 'material': tokens });
-    }
-
-    const handleColors = (e) => {
-        let tokens = e.map(i => i.value);
-        setModel({ ...model, 'color': tokens });
     }
 
     return (
@@ -224,12 +206,13 @@ const Create = () => {
             <Wrapper>
                 <UpdateInfo>
                     <Form>
-                        <Title>Model Upload</Title>
+                        <Title>Model Update</Title>
                         <Label>Title</Label>
                         <Input
                             name="title"
                             placeholder="Enter text"
                             onChange={onChange}
+                            value={model.title}
                         />
                         <Label>3D Model</Label>
                         <Input
@@ -245,27 +228,29 @@ const Create = () => {
                                 type="file"
                                 name="imageUrl"
                                 placeholder="Select a file(no more than 5mb, format: jpeg, png)"
+                                disabled
                                 onChange={e => setFile(e.target.files[0])}
                             />
                             <UploadButton onClick={handleUpload}>Upload</UploadButton>
                         </UploadImageWrapper>
-                        {status === false && <Error>Something went wrong!</Error>}
-                        {status && <Success>Image has beed uploaded!</Success>}
                         <Label>Colors</Label>
-                        <MaterialWrapper>
-                            <MultiSelect name="color" onChange={handleColors} />
-                        </MaterialWrapper>
+                        <Input
+                            name="color"
+                            placeholder="Enter colors separated with comma"
+                            onChange={onChange}
+                            value={model.color}
+                        />
 
                         <Label>Parameters</Label>
                         <Parameters>
-                            <Select name="software" onChange={onChange} defaultValue={'DEFAULT'}>
-                                <Option value="DEFAULT" disabled>Software</Option>
+                            <Select name="software" onChange={onChange} value={model.software}>
+                                <Option disabled>Software</Option>
                                 <Option>3D Studio Max</Option>
                                 <Option>Maya</Option>
                                 <Option>Blender</Option>
                             </Select>
-                            <Select name="category" onChange={onChange} defaultValue={'DEFAULT'}>
-                                <Option value="DEFAULT" disabled>Category</Option>
+                            <Select name="category" onChange={onChange} value={model.category}>
+                                <Option disabled>Category</Option>
                                 <Option>Furniture</Option>
                                 <Option>Technology</Option>
                                 <Option>Lighting</Option>
@@ -277,21 +262,24 @@ const Create = () => {
                         </Parameters>
 
                         <Label>Materials</Label>
-                        <MaterialWrapper>
-                            <MultiSelect name="material" onChange={handleMaterials} />
-                        </MaterialWrapper>
+                        <Input
+                            name="material"
+                            placeholder="Enter materials separated with comma"
+                            onChange={onChange}
+                            value={model.material}
+                        />
 
                         <Label>Style</Label>
                         <RadioContainer onChange={onChange}>
-                            <RadioBtn name="style">Modern</RadioBtn>
-                            <RadioBtn name="style">Classic</RadioBtn>
+                            <RadioBtn name="style" checked={model.style === 'Modern'}>Modern</RadioBtn>
+                            <RadioBtn name="style" checked={model.style === 'Classic'}>Classic</RadioBtn>
                         </RadioContainer>
 
                         <Label>Render</Label>
                         <RadioContainer onChange={onChange}>
-                            <RadioBtn name="render">Vray</RadioBtn>
-                            <RadioBtn name="render">Corona</RadioBtn>
-                            <RadioBtn name="render">Vray/Corona</RadioBtn>
+                            <RadioBtn name="render" checked={model.render === 'Vray'} >Vray</RadioBtn>
+                            <RadioBtn name="render" checked={model.render === 'Corona'}>Corona</RadioBtn>
+                            <RadioBtn name="render" checked={model.render === 'Vray/Corona'}>Vray/Corona</RadioBtn>
                         </RadioContainer>
 
                         <Label>Description</Label>
@@ -299,6 +287,7 @@ const Create = () => {
                             name="description"
                             placeholder="Enter text(no more than 5000 characters)"
                             onChange={onChange}
+                            value={model.description}
                         />
 
                         <Label>Tags</Label>
@@ -306,10 +295,10 @@ const Create = () => {
                             name="tags"
                             placeholder="Enter value(comma separated)"
                             onChange={onChange}
+                            value={model.tags}
                         />
-                        <CreateButton onClick={handleCreate}>CREATE</CreateButton>
+                        <CreateButton onClick={handleUpdate}>UPDATE</CreateButton>
                     </Form>
-
                     <Requirements>
                         <Label>REQUIREMENTS</Label>
                         <Text>Only send your models.</Text>

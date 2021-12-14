@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Select from 'react-select';
 
-const options = [
+const materialOptions = [
     { value: 'concrete', label: 'Concrete' },
     { value: 'fabric', label: 'Fabric' },
     { value: 'glass', label: 'Glass' },
@@ -10,24 +10,30 @@ const options = [
     { value: 'plastic', label: 'Plastic' },
     { value: 'stone', label: 'Stone' },
     { value: 'wood', label: 'Wood' },
+    { value: 'organics', label: 'Organics' },
 ];
 
-const MultiSelect = () => {
-    const [valueState, setValueState] = useState([]);
+const colorOptions = [
+    { value: 'white', label: 'White' },
+    { value: 'black', label: 'Black' },
+    { value: 'red', label: 'Red' },
+    { value: 'green', label: 'Green' },
+    { value: 'blue', label: 'Blue' },
+    { value: 'yellow', label: 'Yellow' },
+    { value: 'beige', label: 'Beige' },
+    { value: 'grey', label: 'Grey' },
+    { value: 'orange', label: 'Orange' },
+    { value: 'gold', label: 'Gold' },
+    { value: 'brown', label: 'Brown' },
+];
 
-    const handleChange = (event) => {
-        let tokens = event.map(i => i.value);
-        setValueState(tokens);
-    };
-
-    console.log(valueState);
-
+const MultiSelect = ({ name, onChange }) => {
     return (
         <Select
             isMulti
-            name="material"
-            options={options}
-            onChange={(e) => handleChange(e)}
+            name={name}
+            options={(name === 'material' ? materialOptions : colorOptions)}
+            onChange={onChange}
         />
     )
 };

@@ -9,12 +9,12 @@ router.post('/', verifyToken, async (req, res) => {
     try {
         const savedModel = await model.save();
         res.status(200).json(savedModel);
-    } catch (err) {
-        res.status(500).json(err);
+    } catch (error) {
+        res.status(500).json(error);
     }
 })
 
-router.put('/:id', isAuthor, async (req, res) => {
+router.put('/:id', verifyToken, async (req, res) => {
     try {
         const updatedModel = await Model.findByIdAndUpdate(req.params.id,
             { $set: req.body },
