@@ -8,6 +8,7 @@ const app = express();
 const authRoute = require('./routes/auth');
 const userRoute = require('./routes/users');
 const modelRoute = require('./routes/models');
+const error = require('./routes/error');
 
 const PORT = process.env.PORT || 5000;
 
@@ -26,6 +27,8 @@ app.use(express.json());
 app.use('/api/auth', authRoute);
 app.use('/api/users', userRoute);
 app.use('/api/models', modelRoute);
+
+app.use(error);
 
 app.listen(PORT, () =>
     console.log(`Server listening on port ${PORT}!`)

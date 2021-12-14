@@ -21,8 +21,6 @@ const verifyToken = (req, res, next) => {
 
 const isAuthor = (req, res, next) => {
     verifyToken(req, res, () => {
-        console.log(req.user);
-        console.log(req.params);
         if (req.user.id === req.params.id) {
             next();
         } else {

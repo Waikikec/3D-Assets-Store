@@ -6,6 +6,7 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import RadioBtn from '../components/custom/RadioBtn';
 import MultiSelect from '../components/custom/MultiSelect';
+import Error from '../components/custom/Error';
 
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { userRequest } from '../utils/requestMethods';
@@ -19,7 +20,7 @@ const Wrapper = styled.div`
     justify-content: center;
 `;
 
-const UpdateInfo = styled.div`
+const ModelInfo = styled.div`
     background-color: whitesmoke;
     display: flex;
     width: 50%;
@@ -34,7 +35,7 @@ const Title = styled.h1`
     margin-bottom: 10px;
 `;
 
-//Create Form
+//MODEL FORM
 const Form = styled.form`
     display: flex;
     flex: 1;
@@ -51,6 +52,7 @@ const Input = styled.input`
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #bebebe;
+    flex: 1;
 `;
 
 const UploadImageWrapper = styled.div`
@@ -104,14 +106,14 @@ const Select = styled.select`
 `;
 const Option = styled.option``;
 
-//Profile Picture
+//REQUIREMENTS
 const Requirements = styled.div`
     margin: 30px 0px 30px 10px;
     height: 100%;
     display: flex;
-    flex: 1;
     align-items: center;
     flex-direction: column;
+    flex: 1;
 `;
 
 const Text = styled.p`
@@ -120,7 +122,7 @@ const Text = styled.p`
     font-size: 14px;
 `;
 
-const Error = styled.span`
+const ErrorSpan = styled.span`
     font-size: 14px;
     font-weight: 300;
     margin: 5px;
@@ -142,6 +144,7 @@ const Create = () => {
     const user = useSelector(state => state.user.currentUser);
 
     const [status, setStatus] = useState(null);
+    const [error, setError] = useState(null);
     const [file, setFile] = useState(null);
     const [model, setModel] = useState({
         title: '',
@@ -205,7 +208,9 @@ const Create = () => {
         try {
             const res = await userRequest.post('/models', model);
             window.location.replace('/details/' + res.data._id);
-        } catch (error) { }
+        } catch (err) {
+            setError(err.response.data);
+        }
     }
 
     const handleMaterials = (e) => {
@@ -222,7 +227,7 @@ const Create = () => {
         <Container>
             <Navbar />
             <Wrapper>
-                <UpdateInfo>
+                <ModelInfo>
                     <Form>
                         <Title>Model Upload</Title>
                         <Label>Title</Label>
@@ -249,7 +254,7 @@ const Create = () => {
                             />
                             <UploadButton onClick={handleUpload}>Upload</UploadButton>
                         </UploadImageWrapper>
-                        {status === false && <Error>Something went wrong!</Error>}
+                        {status === false && <ErrorSpan>Something went wrong!</ErrorSpan>}
                         {status && <Success>Image has beed uploaded!</Success>}
                         <Label>Colors</Label>
                         <MaterialWrapper>
@@ -309,7 +314,6 @@ const Create = () => {
                         />
                         <CreateButton onClick={handleCreate}>CREATE</CreateButton>
                     </Form>
-
                     <Requirements>
                         <Label>REQUIREMENTS</Label>
                         <Text>Only send your models.</Text>
@@ -328,8 +332,10 @@ const Create = () => {
                             Render Studio 3ds Max 2010 and higher (Vray){'\n'}
                             Render studio 3ds Max 2013 and above (Corona){'\n'}
                         </Text>
+                        {error && <Error props={error}></Error>}
                     </Requirements>
-                </UpdateInfo>
+
+                </ModelInfo>
             </Wrapper>
             <Footer />
         </Container>
