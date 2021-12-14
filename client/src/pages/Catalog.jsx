@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Navbar from '../components/Navbar';
 import Products from '../components/Products';
 import Footer from '../components/Footer';
-
+import ClearIcon from '@mui/icons-material/Clear';
 import { mobile } from '../utils/responsive';
 
 const Container = styled.div`
@@ -20,21 +20,35 @@ const FilterContainer = styled.div`
 `;
 
 const Filter = styled.div`
-    margin: 20px;
+    background-color: thistle;
+    display: flex;
+    align-items: center;
+    margin: 10px;
     ${mobile({ width: "0px 20px", display: "flex", flexDirection: "column" })};
 `;
 
 const FilterText = styled.span`
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 600;
-    margin-right: 20px;
+    margin-right: 10px;
     ${mobile({ marginRight: "0px" })};
 `;
 
 const Select = styled.select`
     padding: 10px;
     margin-right: 20px;
+    border-radius: 15px;
     ${mobile({ margin: "10px 0px" })};
+`;
+
+const ClearIconStyled = styled.div`
+    padding: 3px;
+    margin: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #bebebe;
+    border-radius: 50%;
 `;
 
 const Option = styled.option``;
@@ -48,6 +62,10 @@ const Catalog = () => {
     const handleFilters = (e) => {
         const value = e.target.value;
         setFilters({ ...filters, [e.target.name]: value });
+    }
+
+    const clearFilters = (e) => {
+        setFilters({});
     }
 
     return (
@@ -76,13 +94,18 @@ const Catalog = () => {
                         <Option value="Modern">Modern</Option>
                         <Option value="Classic">Classic</Option>
                     </Select>
-                </Filter>
-                <Filter>
                     <FilterText>Sort By Date:</FilterText>
                     <Select onChange={e => setSort(e.target.value)}>
                         <Option value="asc">Asc</Option>
                         <Option value="desc">Desc</Option>
                     </Select>
+                </Filter>
+
+                <Filter>
+                    <FilterText>Clear Filters:</FilterText>
+                    <ClearIconStyled>
+                        <ClearIcon onClick={clearFilters} />
+                    </ClearIconStyled>
                 </Filter>
             </FilterContainer>
             <Products category={category} filters={filters} sort={sort} />
