@@ -110,14 +110,14 @@ const Register = () => {
 
     const dispatch = useDispatch();
     const { pending, error } = useSelector(state => state.user);
+    
+    const onChange = (e) => {
+        setUserInfo({ ...userInfo, [e.target.name]: e.target.value })
+    }
 
     const handleRegister = async (e) => {
         e.preventDefault();
         register(dispatch, userInfo);
-    }
-
-    const onChange = (e) => {
-        setUserInfo({ ...userInfo, [e.target.name]: e.target.value })
     }
 
     return (

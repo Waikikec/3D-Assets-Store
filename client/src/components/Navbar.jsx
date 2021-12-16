@@ -147,7 +147,7 @@ const Navbar = () => {
                                     <Link to='/login'>
                                         <MenuItem>LOGIN</MenuItem>
                                     </Link>
-                                    <Link to={'/login'}>
+                                    <Link to='/login'>
                                         <AccountCircleIcon style={{ marginLeft: 5 }} />
                                     </Link>
                                     <MenuItem>Hello, Guest!</MenuItem>

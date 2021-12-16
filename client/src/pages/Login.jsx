@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { login } from '../redux/apiCalls';
@@ -79,19 +79,26 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { pending, error } = useSelector((state) => state.user);
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        login(dispatch, { email, password });
+
+        try {
+            await login(dispatch, { email, password });
+            navigate('/');
+        } catch (error) {
+            alert(error.message)
+        }
     };
 
     return (
         <Container>
             <Wrapper>
                 <Title>LOGIN</Title>
-                <Form onSubmit={handleLogin}>
+                <Form>
                     <Label>Email:</Label>
                     <Input
                         placeholder="Enter Email"
@@ -104,10 +111,10 @@ const Login = () => {
                         type="password"
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <Button disabled={pending}>
+                    <Button onClick={handleLogin}>
                         SIGN IN
                     </Button>
-                    {error && <Error>Somethng went wrong!</Error>}
+                    {error && <Error>Wrong Credentials!</Error>}
                 </Form>
                 <Text>DO NOT YOU REMEMBER THE PASSWORD?</Text>
                 <Link to="/register">
