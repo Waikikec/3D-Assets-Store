@@ -91,7 +91,7 @@ const Login = () => {
         <Container>
             <Wrapper>
                 <Title>LOGIN</Title>
-                <Form>
+                <Form onSubmit={handleLogin}>
                     <Label>Email:</Label>
                     <Input
                         placeholder="Enter Email"
@@ -104,15 +104,15 @@ const Login = () => {
                         type="password"
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <Button onClick={handleLogin} disabled={pending}>
+                    <Button disabled={pending}>
                         SIGN IN
                     </Button>
                     {error && <Error>Somethng went wrong!</Error>}
                 </Form>
-                    <Text>DO NOT YOU REMEMBER THE PASSWORD?</Text>
-                    <Link to="/register">
-                        <Text>CREATE A NEW ACCOUNT</Text>
-                    </Link>
+                <Text>DO NOT YOU REMEMBER THE PASSWORD?</Text>
+                <Link to="/register">
+                    <Text>CREATE A NEW ACCOUNT</Text>
+                </Link>
             </Wrapper>
         </Container>
     )
