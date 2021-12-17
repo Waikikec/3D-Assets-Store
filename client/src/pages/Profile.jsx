@@ -16,7 +16,11 @@ import { updateUser } from '../redux/apiCalls';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import app from '../utils/firebase';
 
-const Container = styled.div``;
+const Container = styled.div`
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+`;
 
 const Wrapper = styled.div`
     padding: 50px;

@@ -37,19 +37,24 @@ router.delete('/:id', async (req, res) => {
 
 //All Models for Catalog Page (for all USERS)
 router.get('/', async (req, res) => {
-    const qCategory = req.query.category;
     try {
-        let models;
+        let models = await Model.find({});
+        res.status(200).json(models);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+})
 
-        if (qCategory) {
-            models = await Model.find({
-                category: {
-                    $in: [qCategory],
-                },
-            });
-        } else {
-            models = await Model.find({});
-        }
+//All Models from current mood
+router.get('/mood/:category', async (req, res) => {
+    const qCategory = req.params.category;
+    console.log(qCategory);
+    try {
+        const models = await Model.find({
+            category: {
+                $in: [qCategory],
+            },
+        });
         res.status(200).json(models);
     } catch (error) {
         res.status(500).json(error);

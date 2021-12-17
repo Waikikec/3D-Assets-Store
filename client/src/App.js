@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Catalog from "./pages/Catalog";
+import Moods from "./pages/Moods";
 import Details from "./pages/Details";
 import Favourites from "./pages/Favourites";
 import Create from "./pages/Create";
@@ -19,12 +20,12 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home user={user} />} />
+        <Route path="/" element={<Home />} />
         {/* PAGES FOR GUEST */}
         <Route path="/register" element={user ? <Navigate to='/' /> : <Register />} />
         <Route path="/login" element={user ? <Navigate to='/' /> : <Login />} />
         <Route path="/catalog/" element={<Catalog />} />
-        <Route path="/catalog/:category" element={<Catalog />} />
+        <Route path="/mood/:category" element={<Moods />} />
         <Route path="/details/:id" element={<Details />} />
         {/* PAGES FOR USER */}
         <Route path="/create" element={user ? <Create /> : <Navigate to='/' />} />

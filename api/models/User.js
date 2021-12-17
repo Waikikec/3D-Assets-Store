@@ -1,14 +1,30 @@
+const validator = require('validator');
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-    username: { type: String, required: true },
-    email: { type: String, required: true },
-    password: { type: String, required: true },
+    username: {
+        type: String,
+        required: [true, 'Enter a username.'],
+        lowercase: true,
+        validate: [validator.isAlphanumeric, 'Usernames may only have letters and numbers.'],
+    },
+    email: {
+        type: String,
+        require: [true, 'Enter an email address.'],
+        unique: [true, 'That email address is taken.'],
+        lowercase: true,
+        validate: [validator.isEmail, 'Enter a valid email address.'],
+    },
+    password: {
+        type: String,
+        required: [true, 'Enter a password.'],
+        minLength: [3, 'Password should be at least 3 characters'],
+    },
     profilePicture: { type: String, default: '' },
     birthday: { type: String, default: Date, required: false },
-    website: { type: String, required: false },
-    behance: { type: String, required: false },
-    instagram: { type: String, required: false },
+    website: { type: String, required: false, match: /^https?:\/\// },
+    behance: { type: String, required: false, match: /^https?:\/\// },
+    instagram: { type: String, required: false, match: /^https?:\/\// },
     description: { type: String, required: false },
 }, {
     timestamps: true

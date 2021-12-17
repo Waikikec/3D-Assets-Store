@@ -45,7 +45,7 @@ const Title = styled.h1`
 const Category = ({ item }) => {
     return (
         <Container>
-            <Link to={`/catalog/${item.category}`}>
+            <Link to={`/mood/${item.category}`}>
                 <Image src={item.img}></Image>
                 <Info>
                     <Background />

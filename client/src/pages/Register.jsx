@@ -64,6 +64,7 @@ const Register = () => {
         username: '',
         email: '',
         password: '',
+        confirmPassword: '',
     });
 
     const inputs = [
@@ -110,13 +111,17 @@ const Register = () => {
 
     const dispatch = useDispatch();
     const { pending, error } = useSelector(state => state.user);
-    
+
     const onChange = (e) => {
         setUserInfo({ ...userInfo, [e.target.name]: e.target.value })
     }
 
-    const handleRegister = async (e) => {
+    const handleRegister = (e) => {
         e.preventDefault();
+
+        if (!userInfo.username || !userInfo.email || !userInfo.password || !userInfo.confirmPassword) {
+            return alert('All fields are required');
+        }
         register(dispatch, userInfo);
     }
 

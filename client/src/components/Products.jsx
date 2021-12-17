@@ -14,15 +14,11 @@ const Container = styled.div`
 const Products = ({ category, filters, sort }) => {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
-    
+
     useEffect(() => {
         const getProducts = async () => {
             try {
-                const res = await publicRequest.get(
-                    (category && category !== 'catalog')
-                        ? `/models?category=${category}`
-                        : '/models'
-                );
+                const res = await publicRequest.get('/models');
                 setProducts(res.data);
             } catch (error) { }
         }

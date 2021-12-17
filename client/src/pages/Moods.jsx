@@ -2,9 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Navbar from '../components/Navbar';
+import Mood from '../components/Mood';
 import Footer from '../components/Footer';
-import Categories from '../components/Categories';
-import Products from '../components/Products';
 
 const Container = styled.div`
     height: 100vh;
@@ -12,15 +11,14 @@ const Container = styled.div`
     flex-direction: column;
 `;
 
-const Home = () => {
+const Moods = () => {
     return (
         <Container>
             <Navbar />
-            <Categories />
-            <Products />
+            <Mood />
             <Footer />
         </Container>
     )
 }
 
-export default Home
+export default Moods

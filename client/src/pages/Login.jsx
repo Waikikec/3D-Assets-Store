@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
@@ -79,19 +79,12 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { pending, error } = useSelector((state) => state.user);
 
     const handleLogin = async (e) => {
         e.preventDefault();
-
-        try {
-            await login(dispatch, { email, password });
-            navigate('/');
-        } catch (error) {
-            alert(error.message)
-        }
+        login(dispatch, { email, password });
     };
 
     return (
@@ -111,7 +104,7 @@ const Login = () => {
                         type="password"
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <Button onClick={handleLogin}>
+                    <Button onClick={handleLogin} disabled={pending}>
                         SIGN IN
                     </Button>
                     {error && <Error>Wrong Credentials!</Error>}
