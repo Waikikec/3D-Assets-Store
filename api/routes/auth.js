@@ -5,6 +5,9 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 router.post('/register', async (req, res) => {
+    const pattern = new RegExp(`^${req.body.email}$`, 'i');
+    const existEmail = await User.findOne({ email: { $regex: pattern } });
+    
     const salt = await bcrypt.genSalt(10);
     const hashedPass = await bcrypt.hash(req.body.password, salt);
 
@@ -15,6 +18,9 @@ router.post('/register', async (req, res) => {
     });
 
     try {
+        if (existEmail) {
+            throw new Error('Email is already taken!');
+        }
         const savedUser = await user.save();
 
         const accessToken = jwt.sign({
@@ -24,8 +30,8 @@ router.post('/register', async (req, res) => {
 
         const { password, ...others } = user._doc;
         res.status(200).json({ ...others, accessToken });
-    } catch (err) {
-        res.status(500).json(err);
+    } catch (error) {
+        res.status(500).json(error);
     }
 })
 
@@ -43,8 +49,8 @@ router.post('/login', async (req, res) => {
         }, process.env.JWT_SECRET, { expiresIn: '1d' });
         const { password, ...others } = user._doc;
         res.status(200).json({ ...others, accessToken });
-    } catch (err) {
-        res.status(500).json(err);
+    } catch (error) {
+        res.status(500).json(error);
     }
 })
 
