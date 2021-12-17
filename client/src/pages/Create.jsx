@@ -190,17 +190,15 @@ const Create = () => {
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                     setModel({ ...model, imageUrl: downloadURL });
+                    setStatus(true);
                 });
             }
         )
     }
 
-    const handleUpload = async (e) => {
+    const handleUpload = (e) => {
         e.preventDefault();
-        try {
-            await uploadImage();
-            setStatus(true);
-        } catch (error) { }
+        uploadImage();
     }
 
     const handleCreate = async (e) => {

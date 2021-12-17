@@ -26,7 +26,7 @@ router.put('/:id', verifyToken, async (req, res) => {
     }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyToken, async (req, res) => {
     try {
         await Model.findByIdAndDelete(req.params.id);
         res.status(200).json('Model has been deleted!');
@@ -47,12 +47,11 @@ router.get('/', async (req, res) => {
 
 //All Models from current mood
 router.get('/mood/:category', async (req, res) => {
-    const qCategory = req.params.category;
-    console.log(qCategory);
+    const category = req.params.category;
     try {
         const models = await Model.find({
             category: {
-                $in: [qCategory],
+                $in: [category],
             },
         });
         res.status(200).json(models);

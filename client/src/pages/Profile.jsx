@@ -155,6 +155,7 @@ const Profile = () => {
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                     setUserInfo({ ...userInfo, profilePicture: downloadURL });
+                    setStatus(true);
                 });
             }
         )
@@ -164,17 +165,14 @@ const Profile = () => {
         setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
     }
 
-    const handleUpload = async (e) => {
+    const handleUpload = (e) => {
         e.preventDefault();
-        try {
-            await upload();
-            setStatus(true);
-        } catch (error) { }
+        upload();
     }
 
     const handleEdit = (e) => {
         setUpdateMode(true);
-    }
+    }  
 
     const handleUpdate = (e) => {
         e.preventDefault();
