@@ -15,7 +15,7 @@ import userReducer from './userRedux';
 
 const persistConfig = {
     key: 'root',
-    version: 1,
+    version: -1,
     storage,
 };
 

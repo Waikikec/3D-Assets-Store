@@ -84,7 +84,10 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        login(dispatch, { email, password });
+        if (!email || !password) {
+            return alert('All fields are required');
+        }
+        await login(dispatch, { email, password });
     };
 
     return (
@@ -104,7 +107,7 @@ const Login = () => {
                         type="password"
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <Button onClick={handleLogin} disabled={pending}>
+                    <Button onClick={handleLogin} >
                         SIGN IN
                     </Button>
                     {error && <Error>Wrong Credentials!</Error>}

@@ -24,6 +24,7 @@ const userSlice = createSlice({
         //Logout
         logoutSuccess: (state) => {
             state.currentUser = null;
+            state.pending = false;
             state.error = false;
         },
         //Register

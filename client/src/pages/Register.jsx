@@ -116,13 +116,13 @@ const Register = () => {
         setUserInfo({ ...userInfo, [e.target.name]: e.target.value })
     }
 
-    const handleRegister = (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
 
         if (!userInfo.username || !userInfo.email || !userInfo.password || !userInfo.confirmPassword) {
             return alert('All fields are required');
         }
-        register(dispatch, userInfo);
+        await register(dispatch, userInfo);
     }
 
     return (
