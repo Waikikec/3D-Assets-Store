@@ -100,7 +100,7 @@
   - Visual primitives to style application
 - [Firebase Storage](https://www.npmjs.com/package/firebase)
   - Firebase Storage lets you upload and store user generated content, such as files, and images.
-- [Redux Toolkig](https://redux.js.org/)
+- [Redux Toolkit](https://redux.js.org/)
   - Centralizing your application's state and logic
 
 # License
