@@ -1,4 +1,4 @@
-# React JS November 2021 SoftUni
+# Javascript Web Module November 2021 SoftUni
 
 ![MERN](https://raw.githubusercontent.com/miles-till/easy-mern-stack/master/media/mern.png)
 
