@@ -12,6 +12,7 @@
 - [Client](#client)
 - [Server](#server)
 - [Development Tools](#development-tools)
+- [Screenshots](#Screenshots)
 - [License](#license)
 
 # Quick Start
@@ -102,6 +103,15 @@
   - Firebase Storage lets you upload and store user generated content, such as files, and images.
 - [Redux Toolkit](https://redux.js.org/)
   - Centralizing your application's state and logic
+
+# Screenshots
+
+![screencapture-localhost-3000-2022-06-20-16_50_23](https://user-images.githubusercontent.com/19924074/174618542-d1187b53-2119-4580-aaa9-10a5ad9080a1.png)
+![screencapture-localhost-3000-details-61ae71ffd21ee0fda911a8f7-2022-06-20-16_58_40](https://user-images.githubusercontent.com/19924074/174618616-6640a623-c5ef-4239-be9d-30cd624e4cf5.png)
+![screencapture-localhost-3000-create-2022-06-20-16_57_17](https://user-images.githubusercontent.com/19924074/174618631-e3bb4ed7-9e83-48e2-ba32-c94017d5edb2.png)
+![screencapture-localhost-3000-catalog-2022-06-20-16_59_10](https://user-images.githubusercontent.com/19924074/174618656-603dd982-652d-488d-88d6-048a6d7be0b2.png)
+
+
 
 # License
 
